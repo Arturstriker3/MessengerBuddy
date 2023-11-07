@@ -11,8 +11,10 @@
   "dependencies": {
     "axios": "^1.6.0",
     "react-chat-engine-pretty": "^0.1.8",
+    "typed.js": "^2.0.16",
     "veaury": "^2.3.12",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-typed-js": "^0.1.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
