@@ -1,14 +1,29 @@
-<template>
-<h1>Sample</h1>
-</template>
-
 <script setup>
-
-
+    import Authpage from "./pages/AuthPage/index.vue"
+    import ChatsPage from "./pages/ChatsPage/index.vue"
 </script>
 
-<style scoped>
+<template>       
 
+    <Authpage v-if="!user" @onAuth="handleAuth" />
+    <ChatsPage
+     v-else
+     v-bind:username="user.username"
+     v-bind:secret="user.secret"
+    />
+</template>
 
-
-</style>
+<script>
+export default {
+    data() {
+        return {
+            user: undefined,
+        };
+    },
+    methods: {
+        handleAuth(user){
+            this.user = user;
+        },
+    },
+};
+</script>
