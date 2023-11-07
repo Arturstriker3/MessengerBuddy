@@ -1,12 +1,10 @@
-* {
-    font-family: Avenir;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
   }
+  
   body {
-    margin: 0px;
-  }
-  .login-page {
-    width: 100vw;
-    height: 100vh;
     background: linear-gradient(
       180deg,
       rgba(117, 84, 160, 1) 7%,
@@ -19,30 +17,6 @@
       rgba(22, 188, 237, 1) 100%,
       rgba(0, 212, 255, 1) 100%
     );
-  }
-  .card {
-    width: 200px;
-    position: relative;
-    left: calc(50vw - 100px);
-    text-align: center;
-    padding-top: 6vw;
-  }
-  .title {
-    padding-top: 32px;
-    font-size: 22px;
-    color: white;
-    font-weight: 700;
-  }
-  input {
-    width: calc(100% - 16px);
-    margin-top: 12px;
-    padding: 8px;
-    background-color: #e6f7ff;
-    outline: none;
-    border: 1px solid #e6f7ff;
-  }
-  button {
-    margin-top: 12px;
-    width: 100%;
-    padding: 8px;
+    font-family: Arial, sans-serif; /* Define uma fonte padrão para o conteúdo da página */
+    color: #fff; /* Define a cor do texto para branco (ou outra cor que você preferir) */
   }

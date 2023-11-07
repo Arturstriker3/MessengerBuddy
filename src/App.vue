@@ -1,16 +1,9 @@
 <script setup>
-    import Authpage from "./pages/AuthPage/index.vue"
-    import ChatsPage from "./pages/ChatsPage/index.vue"
+    import Authpage from "./components/ChatApp.vue"
 </script>
 
 <template>       
-
-    <Authpage v-if="!user" @onAuth="handleAuth" />
-    <ChatsPage
-     v-else
-     v-bind:username="user.username"
-     v-bind:secret="user.secret"
-    />
+    <Authpage/>
 </template>
 
 <script>

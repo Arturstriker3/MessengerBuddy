@@ -9,8 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.6.0",
-    "react-chat-engine-pretty": "^0.1.8",
+    "socket.io-client": "^4.7.2",
     "typed.js": "^2.0.16",
     "veaury": "^2.3.12",
     "vue": "^3.3.4",

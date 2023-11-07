@@ -15,7 +15,7 @@
             return {
                 typeValue: "",
                 typeStatus: false,
-                typeArray: ["Buddy", "Buddy", "Buddy"],
+                typeArray: ["Buddy", "...", "Buddy", "..."],
                 typingSpeed: 100,
                 erasingSpeed: 150,
                 newTextDelay: 2000,
@@ -78,9 +78,10 @@
   }
   
   .container-tw h1 {
-    font-size: 80px;
+    font-size: 7vh;
     font-weight: 600;
-  }
+}
+
   
   span.cursor {
     display: inline-block;
