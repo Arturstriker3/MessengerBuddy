@@ -1,7 +1,9 @@
 <template>
+  <PageLoader />
   <div v-if="!joined" class="parent-container">
     <typewriterVue></typewriterVue>
       <div class="name-container">
+        <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
         <input class="user-name" :disabled="isButtonDisabled" placeholder="Usuário" type="text" v-model="currentUser"/>
         <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
       </div>
@@ -28,6 +30,7 @@
 <script>
   import typewriterVue from './typewriter.vue';
   import io from 'socket.io-client';
+  import PageLoader from './PageLoader.vue'
 
   export default {
     data() {
@@ -37,36 +40,52 @@
         text: "",
         messages: [],
         isButtonDisabled: true,
+        serverAddress: 'http://localhost:3000',
       };
     },
     components: {
         typewriterVue,
+        PageLoader,
     },
+
+    created() {
+      this.checkServerConnection();
+    },
+
     methods: {
+
+      checkServerConnection() {
+        this.socketInstance = io(this.serverAddress);
+
+        this.socketInstance.on("connect", () => {
+          this.isButtonDisabled = false;
+        });
+      },
+
       join() {
         this.joined = true;
-        this.socketInstance = io("http://localhost:3000")
-
+        this.socketInstance = io(this.serverAddress);
+        
         this.socketInstance.on(
           "message:received", (data) => {
             this.messages = this.messages.concat(data);
           }
         )
       },
+
       sendMessage() {
         this.addMessage();
 
         // Clear the text input field
         this.text = "";
       },
+
       addMessage() {
           const message = {
             id: new Date().getTime(),
             text: this.text,
             user: this.currentUser,
           };
-
-          console.log(message.text)
 
           this.messages = this.messages.concat(message);
 
@@ -77,6 +96,13 @@
 </script>
 
 <style scoped>
+
+  .status-bar {
+    width: 5px;
+    height: 5px;
+    margin-bottom: 5px;
+    border-radius: 50%;
+  }
 
   .parent-container {
     width: 100%;
@@ -101,6 +127,7 @@
     margin-bottom: 5px;
     text-align: center;
     font-weight: bold;
+    border: 3px double black;
   }
 
   .join-button {
