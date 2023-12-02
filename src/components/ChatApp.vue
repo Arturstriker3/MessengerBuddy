@@ -9,8 +9,9 @@
       </div>
   </div>
   <div v-if="joined">
-    <div class="list-container">
+    <div class="list-container" ref="messageList">
       <div v-for="message in messages" :key="message.id">
+          {{ message.time }} |
         <b>
           {{ message.user }}
         </b>
@@ -18,11 +19,14 @@
       </div>
     </div>
     <div class="text-input-container">
-      <textarea 
+      <input 
         v-model="text"
         class="text-message"
-        v-on:keyup.enter="sendMessage"
-      ></textarea>
+        @keyup.enter="sendMessage"
+        type="text"
+        placeholder="Digite sua mensagem..."
+      />
+      <button class="send-button" @click="sendMessage">Enviar</button>
     </div>
   </div>
 </template>
@@ -81,16 +85,32 @@
       },
 
       addMessage() {
+          const now = new Date();
+          const formattedTime = this.formatTime(now);
+
           const message = {
             id: new Date().getTime(),
             text: this.text,
             user: this.currentUser,
+            time: formattedTime,
           };
 
           this.messages = this.messages.concat(message);
 
+          // Rola automaticamente para a última mensagem adicionada
+          this.$nextTick(() => {
+            const messageList = this.$refs.messageList;
+            messageList.scrollTop = messageList.scrollHeight;
+          });
+
           this.socketInstance.emit('message', message);
-      }
+      },
+
+      formatTime(date) {
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      return `${hours}:${minutes}`;
+      },
     },
   };
 </script>
@@ -140,27 +160,53 @@
 
   .join-button:hover{
     cursor: pointer;
-    background: linear-gradient(to bottom, #e52e71, #ff8a00); /* Gradiente de fundo alterado no hover */
+    background: linear-gradient(to bottom, #e52e71, #ff8a00);
   }
 
   .join-button:disabled {
-    /* Defina os estilos de hover quando o botão estiver desativado */
-    cursor: not-allowed; /* Altera o cursor */
-    background-color: #ccc; /* Altera a cor de fundo */
-    color: #999; /* Altera a cor do texto */
-    /* Adicione outros estilos de hover personalizados, se necessário */
+    cursor: not-allowed;
+    background-color: #ccc;
+    color: #999;
+  }
+
+  .list-container {
+    max-height: 87vh; /* Defina uma altura máxima desejada */
+    overflow-y: auto; /* Adicione a rolagem vertical apenas quando necessário */
   }
 
   .text-input-container {
-    height: 100vh;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+    backdrop-filter: blur(10px);
   }
 
   .text-message {
-    width: 100%;
-    position: absolute;
-    bottom: 0px;
-    height: 70px;
-    padding: 10px;
+  flex: 1;
+  height: 50px;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.send-button {
+  height: 50px;
+  font-size: 18px;
+  color: #fff;
+  background: linear-gradient(to bottom, #4caf50, #ff8a00);
+  border: 1px, solid black;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+  .send-button:hover {
+    background: linear-gradient(to bottom, #45a049, #4caf50);
   }
 
 </style>
