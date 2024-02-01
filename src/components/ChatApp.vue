@@ -12,11 +12,14 @@
     <div v-if="joined">
       <div class="list-container" ref="messageList">
         <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
-          {{ message.time }} |
+          
           <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
-          <span :class="{ 'own-message-text': message.user === currentUser }">
+          <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
             {{ message.text }}
           </span>
+          <div class="message-time">
+            {{ message.time }}
+          </div>
         </div>
       </div>
       <div class="text-input-container">
@@ -217,7 +220,20 @@
     background: linear-gradient(to bottom, #45a049, #4caf50);
   }
 
-/* Mensagens */
+/* Estilo das Mensagens */
+
+.message-container {
+    display: flex;
+    align-items: baseline; /* Alinha o horário e o texto na base para garantir que estejam alinhados corretamente */
+  }
+
+.message-time {
+  font-size: 12px; /* Tamanho menor para o horário da mensagem */
+  color: #808080; /* Cor mais suave para o horário */
+  margin-right: 5px;
+  margin-bottom: 15px;
+  filter: brightness(35%); /* Reduz o brilho para escurecer o texto */
+}
 
 .own-message {
   text-align: right;
@@ -228,12 +244,25 @@
   margin-right: 5px;
 }
 
-.own-message-text {
-  background-color: #d3ffd3; /* Adapte a cor de fundo conforme necessário */
+.other-message-text{
+  background-color: #363638; /* Adapte a cor de fundo conforme necessário */
   border-radius: 10px;
   display: inline-block;
   padding: 5px 10px;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
+  color: #FFFFFF;
+  font-size: 20px;
+}
+
+.own-message-text {
+  background-color: #4caf50; /* Adapte a cor de fundo conforme necessário */
+  border-radius: 10px;
+  display: inline-block;
+  padding: 5px 10px;
+  margin-bottom: 3px;
+  color: #FFFFFF;
+  font-size: 20px;
+  text-align: left;
 }
 
 </style>
