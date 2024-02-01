@@ -1,32 +1,34 @@
 <template>
-  <PageLoader />
-  <div v-if="!joined" class="parent-container">
-    <typewriterVue></typewriterVue>
-      <div class="name-container">
-        <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
-        <input class="user-name" :disabled="isButtonDisabled" placeholder="Usuário" type="text" v-model="currentUser"/>
-        <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
-      </div>
-  </div>
-  <div v-if="joined">
-    <div class="list-container" ref="messageList">
-      <div v-for="message in messages" :key="message.id">
-          {{ message.time }} |
-        <b>
-          {{ message.user }}
-        </b>
-        : {{ message.text }}
-      </div>
+  <div>
+    <PageLoader />
+    <div v-if="!joined" class="parent-container">
+      <typewriterVue></typewriterVue>
+        <div class="name-container">
+          <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
+          <input class="user-name" :disabled="isButtonDisabled" placeholder="Usuário" type="text" v-model="currentUser"/>
+          <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
+        </div>
     </div>
-    <div class="text-input-container">
-      <input 
-        v-model="text"
-        class="text-message"
-        @keyup.enter="sendMessage"
-        type="text"
-        placeholder="Digite sua mensagem..."
-      />
-      <button class="send-button" @click="sendMessage">Enviar</button>
+    <div v-if="joined">
+      <div class="list-container" ref="messageList">
+        <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
+          <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
+          {{ message.time }} |
+          <span :class="{ 'own-message-text': message.user === currentUser }">
+            {{ message.text }}
+          </span>
+        </div>
+      </div>
+      <div class="text-input-container">
+        <input 
+          v-model="text"
+          class="text-message"
+          @keyup.enter="sendMessage"
+          type="text"
+          placeholder="Digite sua mensagem..."
+        />
+        <button class="send-button" @click="sendMessage">Enviar</button>
+      </div>
     </div>
   </div>
 </template>
@@ -117,6 +119,13 @@
 
 <style scoped>
 
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
+
+  *{
+    font-family: 'Roboto', sans-serif;
+  }
+
   .status-bar {
     width: 5px;
     height: 5px;
@@ -204,9 +213,26 @@
   cursor: pointer;
   margin-left: 5px;
 }
-
   .send-button:hover {
     background: linear-gradient(to bottom, #45a049, #4caf50);
   }
+
+/* Mensagens */
+
+.own-message {
+  text-align: right;
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.own-message-text {
+  background-color: #d3ffd3; /* Adapte a cor de fundo conforme necessário */
+  border-radius: 10px;
+  display: inline-block;
+  padding: 5px 10px;
+}
 
 </style>
