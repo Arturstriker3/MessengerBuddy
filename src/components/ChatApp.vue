@@ -12,8 +12,8 @@
     <div v-if="joined">
       <div class="list-container" ref="messageList">
         <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
-          <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
           {{ message.time }} |
+          <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
           <span :class="{ 'own-message-text': message.user === currentUser }">
             {{ message.text }}
           </span>
@@ -233,6 +233,7 @@
   border-radius: 10px;
   display: inline-block;
   padding: 5px 10px;
+  margin-bottom: 5px;
 }
 
 </style>
