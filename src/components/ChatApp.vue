@@ -10,6 +10,16 @@
         </div>
     </div>
     <div v-if="joined">
+
+      <div class="navbar-container">
+        <div class="navbar-menu1">
+          <h2>Menu 1</h2>
+        </div>
+        <div class="navbar-menu2">
+          <h2>Menu 2</h2>
+        </div>
+      </div>
+
       <div class="list-container" ref="messageList">
         <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
           
@@ -128,6 +138,33 @@
   *{
     font-family: 'Roboto', sans-serif;
   }
+
+  /* Navbar */
+
+  .navbar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: black;
+  }
+
+  .navbar-menu1 {
+  flex-grow: 1; /* Ocupa metade da largura disponível */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  }
+
+  .navbar-menu2 {
+    flex-grow: 1; /* Ocupa metade da largura disponível */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+  }
+
+  /* Conteúdo */
 
   .status-bar {
     width: 5px;
