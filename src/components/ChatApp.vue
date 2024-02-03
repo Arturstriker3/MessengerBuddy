@@ -16,7 +16,7 @@
         <div class="navbar-menu1">
           <div class="user-info">
             <i class="fa-solid fa-user"></i>
-            {{ currentUser }}
+            <p>{{ currentUser }}</p>
           </div>
           <div class="users-info">
             <i class="fa-solid fa-users"></i>
@@ -24,7 +24,9 @@
           </div>
         </div>
         <div class="navbar-menu2">
-          <i class="fa-solid fa-arrow-right"></i>
+          <button>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
       </div>
 
@@ -199,7 +201,10 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    background-color: black;
+    background-color: #ff8a00;
+    border-radius: 0 0 10px 10px; /* Os valores são para a parte inferior direita e inferior esquerda */
+    margin-bottom: 15px;
+    height: 7vh;
 
     .navbar-menu1 {
       flex-grow: 0.8; /* Ocupa metade da largura disponível */
@@ -207,7 +212,6 @@
       align-items: center;
       flex-direction: row;
       justify-content: center;
-      background-color: red;
       font-size: 20px;
 
       .user-info {
@@ -216,10 +220,15 @@
         justify-content: center;
         align-items: center;
         flex-grow: 1;
+        font-size: 15px;
 
         i {
           margin-right: 15px;
           font-size: 30px;
+        }
+
+        p {
+          font-size: 15px;
         }
       }
 
@@ -234,6 +243,10 @@
           margin-right: 15px;
           font-size: 30px;
         }
+
+        p {
+          font-size: 15px;
+        }
       }
     }
 
@@ -242,8 +255,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: blue;
       font-size: 20px;
+
+      button {
+        height: 35px;
+        width: 50%;
+        font-size: 18px;
+        color: #fff;
+        background: linear-gradient(to bottom, #4caf50, #ff8a00);
+        border: 1px, solid black;
+        border-radius: 5px;
+        padding: 5px;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+          background: linear-gradient(to bottom, #45a049, #4caf50);
+        }
+      }
     }
   }
 
