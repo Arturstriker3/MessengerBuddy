@@ -30,7 +30,6 @@
 
       <div class="list-container" ref="messageList">
         <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
-          
           <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
           <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
             {{ message.text }}
@@ -138,67 +137,9 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
-
-  *{
-    font-family: 'Roboto', sans-serif;
-  }
-
-  /* Navbar */
-
-  .navbar-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    background-color: black;
-  }
-
-  .navbar-menu1 {
-  flex-grow: 0.8; /* Ocupa metade da largura disponível */
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  background-color: red;
-  font-size: 20px;
-  }
-
-  .user-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-  }
-
-  .users-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-  }
-
-  .navbar-menu2 {
-    flex-grow: 0.2; /* Ocupa metade da largura disponível */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: blue;
-    font-size: 20px;
-  }
-
-  /* Conteúdo */
-
-  .status-bar {
-    width: 5px;
-    height: 5px;
-    margin-bottom: 5px;
-    border-radius: 50%;
-  }
+  /* Menu de Acesso */
 
   .parent-container {
     width: 100%;
@@ -208,47 +149,150 @@
     align-items: center;
     position: fixed;
     flex-direction: column;
+
+    .name-container {
+      display: flex;
+      flex-direction: column;
+      width: 200px;
+
+      .status-bar {
+        width: 5px;
+        height: 5px;
+        margin-bottom: 5px;
+        border-radius: 50%;
+      }
+
+      .user-name {
+        height: 30px;
+        font-size: 20px;
+        padding: 5px;
+        margin-bottom: 5px;
+        text-align: center;
+        font-weight: bold;
+        border: 3px double black;
+      }
+
+      .join-button {
+        height: 30px;
+        font-size: 20px;
+        color: #fff;
+        background: linear-gradient(to bottom, #ff8a00, #e52e71);
+        transition: background 0.3s;
+
+        &:hover{
+          cursor: pointer;
+          background: linear-gradient(to bottom, #e52e71, #ff8a00);
+        }
+
+        &:disabled {
+          cursor: not-allowed;
+          background-color: #ccc;
+          color: #999;
+        }
+      }
+    }
   }
 
-  .name-container {
+  /* Navbar */
+
+  .navbar-container {
     display: flex;
-    flex-direction: column;
-    width: 200px;
+    flex-direction: row;
+    justify-content: center;
+    background-color: black;
+
+    .navbar-menu1 {
+      flex-grow: 0.8; /* Ocupa metade da largura disponível */
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      background-color: red;
+      font-size: 20px;
+
+      .user-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+
+        i {
+          margin-right: 15px;
+          font-size: 30px;
+        }
+      }
+
+      .users-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+
+        i {
+          margin-right: 15px;
+          font-size: 30px;
+        }
+      }
+    }
+
+    .navbar-menu2 {
+      flex-grow: 0.2; /* Ocupa metade da largura disponível */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: blue;
+      font-size: 20px;
+    }
   }
 
-  .user-name {
-    height: 30px;
-    font-size: 20px;
-    padding: 5px;
-    margin-bottom: 5px;
-    text-align: center;
-    font-weight: bold;
-    border: 3px double black;
-  }
-
-  .join-button {
-    height: 30px;
-    font-size: 20px;
-    color: #fff;
-    background: linear-gradient(to bottom, #ff8a00, #e52e71);
-    transition: background 0.3s;
-  }
-
-  .join-button:hover{
-    cursor: pointer;
-    background: linear-gradient(to bottom, #e52e71, #ff8a00);
-  }
-
-  .join-button:disabled {
-    cursor: not-allowed;
-    background-color: #ccc;
-    color: #999;
-  }
+  // Mensagens
 
   .list-container {
-    max-height: 80vh; /* Defina uma altura máxima desejada */
-    overflow-y: auto; /* Adicione a rolagem vertical apenas quando necessário */
+    max-height: 80vh;
+    overflow-y: auto;
+
+    .own-message {
+      text-align: right;
+    }
+
+    .message-sender {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .other-message-text{
+      background-color: #363638;
+      border-radius: 10px;
+      display: inline-block;
+      padding: 5px 10px;
+      margin-bottom: 3px;
+      color: #FFFFFF;
+      font-size: 20px;
+    }
+
+    .own-message-text {
+      background-color: #4caf50;
+      border-radius: 10px;
+      display: inline-block;
+      padding: 5px 10px;
+      margin-bottom: 3px;
+      color: #FFFFFF;
+      font-size: 20px;
+      text-align: left;
+    }
+
+    .message-time {
+      font-size: 12px;
+      color: #808080;
+      margin-right: 5px;
+      margin-bottom: 15px;
+      filter: brightness(35%);
+    }
   }
+
+  /* Input das Mensagens */
 
   .text-input-container {
     position: fixed;
@@ -260,73 +304,28 @@
     padding: 10px;
     align-items: center;
     backdrop-filter: blur(10px);
+
+    .text-message {
+      flex: 1;
+      height: 50px;
+      padding: 10px;
+      border-radius: 15px;
+    }
+
+    .send-button {
+      height: 50px;
+      font-size: 18px;
+      color: #fff;
+      background: linear-gradient(to bottom, #4caf50, #ff8a00);
+      border: 1px, solid black;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+      margin-left: 5px;
+
+      &:hover {
+        background: linear-gradient(to bottom, #45a049, #4caf50);
+      }
+    }
   }
-
-  .text-message {
-  flex: 1;
-  height: 50px;
-  padding: 10px;
-  border-radius: 15px;
-}
-
-.send-button {
-  height: 50px;
-  font-size: 18px;
-  color: #fff;
-  background: linear-gradient(to bottom, #4caf50, #ff8a00);
-  border: 1px, solid black;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  margin-left: 5px;
-}
-  .send-button:hover {
-    background: linear-gradient(to bottom, #45a049, #4caf50);
-  }
-
-/* Estilo das Mensagens */
-
-.message-container {
-    display: flex;
-    align-items: baseline; /* Alinha o horário e o texto na base para garantir que estejam alinhados corretamente */
-  }
-
-.message-time {
-  font-size: 12px; /* Tamanho menor para o horário da mensagem */
-  color: #808080; /* Cor mais suave para o horário */
-  margin-right: 5px;
-  margin-bottom: 15px;
-  filter: brightness(35%); /* Reduz o brilho para escurecer o texto */
-}
-
-.own-message {
-  text-align: right;
-}
-
-.message-sender {
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-.other-message-text{
-  background-color: #363638; /* Adapte a cor de fundo conforme necessário */
-  border-radius: 10px;
-  display: inline-block;
-  padding: 5px 10px;
-  margin-bottom: 3px;
-  color: #FFFFFF;
-  font-size: 20px;
-}
-
-.own-message-text {
-  background-color: #4caf50; /* Adapte a cor de fundo conforme necessário */
-  border-radius: 10px;
-  display: inline-block;
-  padding: 5px 10px;
-  margin-bottom: 3px;
-  color: #FFFFFF;
-  font-size: 20px;
-  text-align: left;
-}
-
 </style>
