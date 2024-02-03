@@ -19,7 +19,7 @@
           if (document.readyState == "complete") {
             setTimeout(() => {
                 this.isloaded = true;
-            }, 3000);
+            }, 1000);
           } 
         }
       },
