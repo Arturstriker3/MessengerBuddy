@@ -102,7 +102,7 @@
           }
         )
 
-        sessionStorage.setItem('currentUser', this.currentUser);
+        localStorage.setItem('currentUser', this.currentUser);
       },
 
       sendMessage() {
@@ -141,7 +141,8 @@
       },
 
       loadSavedUser() {
-        const savedUser = sessionStorage.getItem('currentUser');
+        // Verifica se há um usuário salvo no localStorage
+        const savedUser = localStorage.getItem('currentUser');
         if (savedUser) {
           this.currentUser = savedUser;
           this.joined = true;
