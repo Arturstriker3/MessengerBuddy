@@ -78,6 +78,8 @@
 
     created() {
       this.checkServerConnection();
+
+      this.loadSavedUser();
     },
 
     methods: {
@@ -99,6 +101,8 @@
             this.messages = this.messages.concat(data);
           }
         )
+
+        sessionStorage.setItem('currentUser', this.currentUser);
       },
 
       sendMessage() {
@@ -134,6 +138,14 @@
       const hours = date.getHours().toString().padStart(2, '0');
       const minutes = date.getMinutes().toString().padStart(2, '0');
       return `${hours}:${minutes}`;
+      },
+
+      loadSavedUser() {
+        const savedUser = sessionStorage.getItem('currentUser');
+        if (savedUser) {
+          this.currentUser = savedUser;
+          this.joined = true;
+        }
       },
     },
   };
