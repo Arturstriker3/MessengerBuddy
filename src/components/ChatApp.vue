@@ -9,14 +9,22 @@
           <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
         </div>
     </div>
+    
     <div v-if="joined">
 
       <div class="navbar-container">
         <div class="navbar-menu1">
-          <h2>Menu 1</h2>
+          <div class="user-info">
+            <i class="fa-solid fa-user"></i>
+            {{ currentUser }}
+          </div>
+          <div class="users-info">
+            <i class="fa-solid fa-users"></i>
+            <p>999</p>
+          </div>
         </div>
         <div class="navbar-menu2">
-          <h2>Menu 2</h2>
+          <i class="fa-solid fa-arrow-right"></i>
         </div>
       </div>
 
@@ -149,19 +157,38 @@
   }
 
   .navbar-menu1 {
-  flex-grow: 1; /* Ocupa metade da largura disponível */
+  flex-grow: 0.8; /* Ocupa metade da largura disponível */
   display: flex;
   align-items: center;
+  flex-direction: row;
   justify-content: center;
   background-color: red;
+  font-size: 20px;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  .users-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
   }
 
   .navbar-menu2 {
-    flex-grow: 1; /* Ocupa metade da largura disponível */
+    flex-grow: 0.2; /* Ocupa metade da largura disponível */
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: blue;
+    font-size: 20px;
   }
 
   /* Conteúdo */
@@ -219,7 +246,7 @@
   }
 
   .list-container {
-    max-height: 87vh; /* Defina uma altura máxima desejada */
+    max-height: 80vh; /* Defina uma altura máxima desejada */
     overflow-y: auto; /* Adicione a rolagem vertical apenas quando necessário */
   }
 
