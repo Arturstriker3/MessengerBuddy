@@ -178,7 +178,7 @@
       sendToBackend(message) {
         if (message && message.user && message.time) {
 
-          console.log('Dados enviados para o backend:', message);
+          // console.log('Dados enviados para o backend:', message);
 
           axios.post('http://localhost:3000/api/sendMessage', {
             user: message.user,
@@ -187,7 +187,7 @@
             time: message.time,
           })
           .then(response => {
-            console.log('Mensagem enviada com sucesso para o backend!', response.data);
+            // console.log('Mensagem enviada com sucesso para o backend!', response.data);
           })
           .catch(error => {
             console.error('Erro ao enviar mensagem para o backend:', error);
