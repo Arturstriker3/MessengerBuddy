@@ -409,6 +409,26 @@
   .list-container {
     max-height: 80vh;
     overflow-y: auto;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    &::-webkit-scrollbar{
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track{
+      border-radius: 8px;
+      background-color: #e7e7e7;
+      border: 1px solid #cacaca;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    }
+
+    &::-webkit-scrollbar-thumb{
+      border-radius: 8px;
+      background-color: #363636;
+    }
 
     .own-message {
       text-align: right;
@@ -467,6 +487,7 @@
       height: 50px;
       padding: 10px;
       border-radius: 15px;
+      font-family: 'Roboto', sans-serif;
     }
 
     .send-button {
