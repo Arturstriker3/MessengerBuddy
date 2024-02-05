@@ -11,17 +11,18 @@
     export default {
       data: () => {
         return {
-          isloaded: false
+          isloaded: false,
         }
       },
-      mounted() {
-        document.onreadystatechange = () => {
-          if (document.readyState == "complete") {
-            setTimeout(() => {
-                this.isloaded = true;
-            }, 1000);
-          } 
-        }
+      methods: {
+        setLoadedStatus(isLoaded) {
+          this.isloaded = isLoaded;
+        },
+        delayAndSetLoadedStatus(delay) {
+          setTimeout(() => {
+            this.isloaded = true;
+          }, delay);
+        },
       },
     }
   </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageLoader />
+    <PageLoader ref="pageLoader" />
     <div v-if="!joined" class="parent-container">
       <typewriterVue></typewriterVue>
         <div class="name-container">
@@ -90,6 +90,7 @@
       if (this.joined) {
         this.loadMessages();
       }
+      this.$refs.pageLoader.delayAndSetLoadedStatus(1000);
     },
 
     methods: {
@@ -114,6 +115,7 @@
         });
 
         localStorage.setItem('currentUser', this.currentUser);
+        this.loadMessages()
       },
 
       join2() {
@@ -156,7 +158,7 @@
           text: this.text,
           user: this.currentUser,
           time: formattedTime,
-          date: formattedDate, // Adicionando a propriedade 'date'
+          date: formattedDate,
         };
 
         // Rola automaticamente para a última mensagem adicionada
@@ -205,6 +207,9 @@
       },
 
       loadMessages() {
+
+        this.$refs.pageLoader.setLoadedStatus(false);
+
         axios.get('http://localhost:3000/api/getMessages')
           .then(response => {
             this.messages = response.data.map(message => ({
@@ -212,6 +217,8 @@
               user: message.user,
               time: this.formatTime(new Date(message.date + ' ' + message.time)),
             }));
+
+            this.$refs.pageLoader.delayAndSetLoadedStatus(2000);
           })
           .catch(error => {
             console.error('Erro ao carregar mensagens:', error);
