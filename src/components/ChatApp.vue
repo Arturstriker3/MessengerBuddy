@@ -20,7 +20,7 @@
           </div>
           <div class="users-info">
             <i class="fa-solid fa-users"></i>
-            <p>999</p>
+            <p>{{ onlineUsers }}</p>
           </div>
         </div>
         <div class="navbar-menu2">
@@ -72,6 +72,7 @@
         messages: [],
         isButtonDisabled: true,
         isAudioPlaying: false,
+        onlineUsers: 0,
         serverAddress: 'http://localhost:3000',
       };
     },
@@ -89,8 +90,16 @@
     mounted() {
       if (this.joined) {
         this.loadMessages();
+        this.setupSocketListeners();
       }
       this.$refs.pageLoader.delayAndSetLoadedStatus(1000);
+    },
+
+    beforeDestroy() {
+      // Certifique-se de desconectar os ouvintes quando o componente for destruído
+      if (this.socketInstance) {
+        this.socketInstance.off('onlineUsersCount', this.updateOnlineUsers);
+      }
     },
 
     methods: {
@@ -259,6 +268,15 @@
         setTimeout(() => {
           this.isAudioPlaying = false;
         }, 5000);
+      },
+
+      setupSocketListeners() {
+        // Ouvir o evento 'onlineUsersCount' para manter atualizado o número de usuários online
+        this.socketInstance.on('onlineUsersCount', this.updateOnlineUsers);
+      },
+
+      updateOnlineUsers(count) {
+        this.onlineUsers = count;
       },
     },
   };
