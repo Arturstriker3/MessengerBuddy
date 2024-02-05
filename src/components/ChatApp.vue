@@ -219,7 +219,7 @@
       },
 
       playNotificationSound() {
-        if (this.isAudioPlaying) {
+        if (this.isAudioPlaying || !this.joined) {
           return;
         }
 
