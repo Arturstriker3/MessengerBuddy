@@ -109,10 +109,10 @@
         this.playLoginSound()
         
         this.socketInstance.on("message:received", (data) => {
-          if (data.user !== this.currentUser) {
-            this.messages = this.messages.concat(data);
-            // console.log('incremento de mensagem login btn');
-          }
+            if (data.user !== this.currentUser) {
+                this.messages = this.messages.concat(data);
+                this.playNotificationSound(); // Adicione esta linha
+            }
         });
 
         localStorage.setItem('currentUser', this.currentUser);
@@ -121,10 +121,10 @@
 
       join2() {
         this.socketInstance.on("message:received", (data) => {
-          if (data.user !== this.currentUser) {
-            this.messages = this.messages.concat(data);
-            // console.log('incremento de mensagem storage');
-          }
+            if (data.user !== this.currentUser) {
+                this.messages = this.messages.concat(data);
+                this.playNotificationSound(); // Adicione esta linha
+            }
         });
       },
 
