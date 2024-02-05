@@ -140,10 +140,11 @@
       },
 
       sendMessage() {
+        if (this.text.trim() !== "") {
         this.addMessage();
         this.playNotificationSound();
-        // Clear the text input field
         this.text = "";
+        }
       },
 
       addMessage() {
