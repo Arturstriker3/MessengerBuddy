@@ -60,6 +60,8 @@
   import io from 'socket.io-client';
   import PageLoader from './PageLoader.vue'
   import axios from 'axios';
+  import notificationSound from '../audio/notification.mp3';
+
 
   export default {
     data() {
@@ -139,7 +141,7 @@
 
       sendMessage() {
         this.addMessage();
-
+        this.playNotificationSound();
         // Clear the text input field
         this.text = "";
       },
@@ -213,6 +215,21 @@
           .catch(error => {
             console.error('Erro ao carregar mensagens:', error);
           });
+      },
+
+      playNotificationSound() {
+        if (this.isAudioPlaying) {
+          return;
+        }
+
+        const audio = new Audio(notificationSound);
+        audio.play();
+
+        this.isAudioPlaying = true;
+
+        setTimeout(() => {
+          this.isAudioPlaying = false;
+        }, 500);
       },
     },
   };
