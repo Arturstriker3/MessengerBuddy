@@ -59,6 +59,7 @@
   import typewriterVue from './typewriter.vue';
   import io from 'socket.io-client';
   import PageLoader from './PageLoader.vue'
+  import axios from 'axios';
 
   export default {
     data() {
@@ -68,6 +69,7 @@
         text: "",
         messages: [],
         isButtonDisabled: true,
+        isAudioPlaying: false,
         serverAddress: 'http://localhost:3000',
       };
     },
@@ -80,6 +82,12 @@
       this.checkServerConnection();
 
       this.loadSavedUser();
+    },
+
+    mounted() {
+      if (this.joined) {
+        this.loadMessages();
+      }
     },
 
     methods: {
@@ -96,13 +104,37 @@
         this.joined = true;
         this.socketInstance = io(this.serverAddress);
         
-        this.socketInstance.on(
-          "message:received", (data) => {
+        this.socketInstance.on("message:received", (data) => {
+          if (data.user !== this.currentUser) {
             this.messages = this.messages.concat(data);
+            // console.log('incremento de mensagem login btn');
           }
-        )
+        });
 
         localStorage.setItem('currentUser', this.currentUser);
+      },
+
+      join2() {
+        this.socketInstance.on("message:received", (data) => {
+          if (data.user !== this.currentUser) {
+            this.messages = this.messages.concat(data);
+            // console.log('incremento de mensagem storage');
+          }
+        });
+      },
+
+      formatTime(date) {
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+      },
+
+      formatDate(date) {
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+
+        return `${year}-${month}-${day}`;
       },
 
       sendMessage() {
@@ -113,31 +145,50 @@
       },
 
       addMessage() {
-          const now = new Date();
-          const formattedTime = this.formatTime(now);
+        const now = new Date();
+        const formattedTime = this.formatTime(now);
+        const formattedDate = this.formatDate(now);
 
-          const message = {
-            id: new Date().getTime(),
-            text: this.text,
-            user: this.currentUser,
-            time: formattedTime,
-          };
+        const message = {
+          text: this.text,
+          user: this.currentUser,
+          time: formattedTime,
+          date: formattedDate, // Adicionando a propriedade 'date'
+        };
 
-          this.messages = this.messages.concat(message);
+        // Rola automaticamente para a última mensagem adicionada
+        this.$nextTick(() => {
+          const messageList = this.$refs.messageList;
+          messageList.scrollTop = messageList.scrollHeight;
+        });
 
-          // Rola automaticamente para a última mensagem adicionada
-          this.$nextTick(() => {
-            const messageList = this.$refs.messageList;
-            messageList.scrollTop = messageList.scrollHeight;
-          });
+        // Enviar mensagem para o backend (adicionar código de envio para o backend aqui)
+        this.sendToBackend(message);
 
-          this.socketInstance.emit('message', message);
+        // Emitir a mensagem para todos os clientes conectados
+        this.messages = this.messages.concat(message);
       },
 
-      formatTime(date) {
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
-      return `${hours}:${minutes}`;
+      sendToBackend(message) {
+        if (message && message.user && message.time) {
+
+          console.log('Dados enviados para o backend:', message);
+
+          axios.post('http://localhost:3000/api/sendMessage', {
+            user: message.user,
+            text: message.text,
+            date: message.date,
+            time: message.time,
+          })
+          .then(response => {
+            console.log('Mensagem enviada com sucesso para o backend!', response.data);
+          })
+          .catch(error => {
+            console.error('Erro ao enviar mensagem para o backend:', error);
+          });
+        } else {
+          console.error('Objeto de mensagem inválido:', message);
+        }
       },
 
       loadSavedUser() {
@@ -146,7 +197,22 @@
         if (savedUser) {
           this.currentUser = savedUser;
           this.joined = true;
+          this.join2()
         }
+      },
+
+      loadMessages() {
+        axios.get('http://localhost:3000/api/getMessages')
+          .then(response => {
+            this.messages = response.data.map(message => ({
+              text: message.text,
+              user: message.user,
+              time: this.formatTime(new Date(message.date + ' ' + message.time)),
+            }));
+          })
+          .catch(error => {
+            console.error('Erro ao carregar mensagens:', error);
+          });
       },
     },
   };
