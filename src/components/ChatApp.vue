@@ -61,7 +61,7 @@
   import PageLoader from './PageLoader.vue'
   import axios from 'axios';
   import notificationSound from '../audio/notification.mp3';
-
+  import loginSound from '../audio/login.mp3';
 
   export default {
     data() {
@@ -106,6 +106,7 @@
       join() {
         this.joined = true;
         this.socketInstance = io(this.serverAddress);
+        this.playLoginSound()
         
         this.socketInstance.on("message:received", (data) => {
           if (data.user !== this.currentUser) {
@@ -243,6 +244,21 @@
         setTimeout(() => {
           this.isAudioPlaying = false;
         }, 500);
+      },
+
+      playLoginSound() {
+        if (this.isAudioPlaying || !this.joined) {
+          return;
+        }
+
+        const audio = new Audio(loginSound);
+        audio.play();
+
+        this.isAudioPlaying = true;
+
+        setTimeout(() => {
+          this.isAudioPlaying = false;
+        }, 5000);
       },
     },
   };
