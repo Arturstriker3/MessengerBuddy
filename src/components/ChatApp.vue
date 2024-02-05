@@ -147,6 +147,12 @@
         this.playNotificationSound();
         this.text = "";
         }
+
+        // Rola automaticamente para a última mensagem
+        this.$nextTick(() => {
+          const messageList = this.$refs.messageList;
+          messageList.scrollTop = messageList.scrollHeight;
+        });
       },
 
       addMessage() {
@@ -160,12 +166,6 @@
           time: formattedTime,
           date: formattedDate,
         };
-
-        // Rola automaticamente para a última mensagem adicionada
-        this.$nextTick(() => {
-          const messageList = this.$refs.messageList;
-          messageList.scrollTop = messageList.scrollHeight;
-        });
 
         // Enviar mensagem para o backend (adicionar código de envio para o backend aqui)
         this.sendToBackend(message);
@@ -219,6 +219,11 @@
             }));
 
             this.$refs.pageLoader.delayAndSetLoadedStatus(2000);
+
+            this.$nextTick(() => {
+              const messageList = this.$refs.messageList;
+              messageList.scrollTop = messageList.scrollHeight;
+            });
           })
           .catch(error => {
             console.error('Erro ao carregar mensagens:', error);
