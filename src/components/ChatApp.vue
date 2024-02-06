@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="navbar-menu2">
-          <button>
+          <button @click="logout">
             <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
@@ -62,6 +62,7 @@
   import axios from 'axios';
   import notificationSound from '../audio/notification.mp3';
   import loginSound from '../audio/login.mp3';
+  import logoutSound from '../audio/logout.mp3';
 
   export default {
     data() {
@@ -72,7 +73,7 @@
         messages: [],
         isButtonDisabled: true,
         isAudioPlaying: false,
-        onlineUsers: 0,
+        onlineUsers: 1,
         serverAddress: 'http://localhost:3000',
       };
     },
@@ -116,6 +117,9 @@
         this.joined = true;
         this.socketInstance = io(this.serverAddress);
         this.playLoginSound()
+
+        // Atribuir o nome do usuário ao socket
+        this.socketInstance.user = this.currentUser;
         
         this.socketInstance.on("message:received", (data) => {
             if (data.user !== this.currentUser) {
@@ -129,6 +133,10 @@
       },
 
       join2() {
+
+        // Atribuir o nome do usuário ao socket
+        this.socketInstance.user = this.currentUser;
+
         this.socketInstance.on("message:received", (data) => {
             if (data.user !== this.currentUser) {
                 this.messages = this.messages.concat(data);
@@ -270,6 +278,21 @@
         }, 5000);
       },
 
+      playLogoutSound() {
+        if (this.isAudioPlaying || !this.joined) {
+          return;
+        }
+
+        const audio = new Audio(logoutSound);
+        audio.play();
+
+        this.isAudioPlaying = true;
+
+        setTimeout(() => {
+          this.isAudioPlaying = false;
+        }, 5000);
+      },
+
       setupSocketListeners() {
         // Ouvir o evento 'onlineUsersCount' para manter atualizado o número de usuários online
         this.socketInstance.on('onlineUsersCount', this.updateOnlineUsers);
@@ -277,6 +300,26 @@
 
       updateOnlineUsers(count) {
         this.onlineUsers = count;
+      },
+
+      logout() {
+        // Limpar as informações no localStorage
+        localStorage.removeItem('currentUser');
+        this.$refs.pageLoader.setLoadedStatus(false);
+
+        // Desconectar o socket e redefinir variáveis
+        if (this.socketInstance) {
+          this.socketInstance.disconnect();
+          this.socketInstance = null;
+        }
+
+        this.playLogoutSound();
+        this.joined = false;
+        this.currentUser = "";
+        this.text = "";
+        this.messages = [];
+        this.joined = false;
+        this.$refs.pageLoader.delayAndSetLoadedStatus(2000);
       },
     },
   };
