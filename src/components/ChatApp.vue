@@ -5,7 +5,7 @@
       <typewriterVue class="typewriter-overlay"></typewriterVue>
       <div class="name-container">
         <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
-        <input class="user-name" :disabled="isButtonDisabled" placeholder="Usuário" type="text" v-model="currentUser"/>
+        <input class="user-name" :disabled="isButtonDisabled" @keyup.enter="join" placeholder="Usuário" type="text" v-model="currentUser"/>
         <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
       </div>
     </div>
@@ -318,6 +318,7 @@
         this.text = "";
         this.messages = [];
         this.joined = false;
+        this.checkServerConnection()
         this.$refs.pageLoader.delayAndSetLoadedStatus(2000);
       },
     },
