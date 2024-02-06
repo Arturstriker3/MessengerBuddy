@@ -78,8 +78,9 @@
   }
   
   .container-tw h1 {
-    font-size: 7vh;
+    font-size: 6.5vh;
     font-weight: 600;
+    text-align: center;
 }
 
   

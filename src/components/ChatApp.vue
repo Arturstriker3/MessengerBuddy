@@ -2,20 +2,19 @@
   <div>
     <PageLoader ref="pageLoader" />
     <div v-if="!joined" class="parent-container">
-      <typewriterVue></typewriterVue>
-        <div class="name-container">
-          <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
-          <input class="user-name" :disabled="isButtonDisabled" placeholder="Usuário" type="text" v-model="currentUser"/>
-          <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
-        </div>
+      <typewriterVue class="typewriter-overlay"></typewriterVue>
+      <div class="name-container">
+        <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
+        <input class="user-name" :disabled="isButtonDisabled" placeholder="Usuário" type="text" v-model="currentUser"/>
+        <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
+      </div>
     </div>
     
     <div v-if="joined">
-
       <div class="navbar-container">
         <div class="navbar-menu1">
           <div class="user-info">
-            <i class="fa-solid fa-user"></i>
+            <i class="fa-solid fa-user"></i> 
             <p>{{ currentUser }}</p>
           </div>
           <div class="users-info">
@@ -331,17 +330,26 @@
 
   .parent-container {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
     flex-direction: column;
+
+    .typewriter-overlay {
+      position: absolute;
+      top: -15vh;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
 
     .name-container {
       display: flex;
       flex-direction: column;
       width: 200px;
+      z-index: 1;
+      
 
       .status-bar {
         width: 5px;
