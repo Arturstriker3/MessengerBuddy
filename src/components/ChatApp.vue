@@ -11,23 +11,22 @@
     </div>
     
     <div v-if="joined">
-      <div class="navbar-container">
-        <div class="navbar-menu1">
-          <div class="user-info">
-            <i class="fa-solid fa-user"></i> 
-            <p>{{ currentUser }}</p>
-          </div>
-          <div class="users-info">
-            <i class="fa-solid fa-users"></i>
-            <p>{{ onlineUsers }}</p>
-          </div>
+
+      <nav class="navbar">
+        <div class="brand-title">Olá, {{ currentUser }}</div>
+        <a href="#" class="toggle-button" @click="toggleNavbar">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </a>
+        <div class="navbar-links" :class="{ active: navbarActive }">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Sair</a></li>
+          </ul>
         </div>
-        <div class="navbar-menu2">
-          <button @click="logout">
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
+      </nav>
 
       <div class="list-container" ref="messageList">
         <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
@@ -73,6 +72,7 @@
         isButtonDisabled: true,
         isAudioPlaying: false,
         onlineUsers: 1,
+        navbarActive: false,
         serverAddress: 'http://localhost:3000',
       };
     },
@@ -321,6 +321,10 @@
         this.checkServerConnection()
         this.$refs.pageLoader.delayAndSetLoadedStatus(2000);
       },
+
+      toggleNavbar() {
+        this.navbarActive = !this.navbarActive;
+      }
     },
   };
 </script>
@@ -392,87 +396,97 @@
 
   /* Navbar */
 
-  .navbar-container {
+  .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+}
+
+.brand-title {
+  font-size: 1.5rem;
+  margin: 0.8rem;
+}
+
+.navbar-links ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-links li {
+  list-style: none;
+}
+
+.navbar-links li:hover {
+  background-color: #555;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+  display: block;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 21px;
+  cursor: pointer; /* Adicionado cursor pointer para indicar que é clicável */
+}
+
+.toggle-button .bar {
+  height: 3px;
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+}
+
+@media (max-width: 425px) {
+  .toggle-button {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    background-color: #ff8a00;
-    border-radius: 0 0 10px 10px; /* Os valores são para a parte inferior direita e inferior esquerda */
-    margin-bottom: 15px;
-    height: 7vh;
-
-    .navbar-menu1 {
-      flex-grow: 0.8; /* Ocupa metade da largura disponível */
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      justify-content: center;
-      font-size: 20px;
-
-      .user-info {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        flex-grow: 1;
-        font-size: 15px;
-
-        i {
-          margin-right: 15px;
-          font-size: 30px;
-        }
-
-        p {
-          font-size: 15px;
-        }
-      }
-
-      .users-info {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        flex-grow: 1;
-
-        i {
-          margin-right: 15px;
-          font-size: 30px;
-        }
-
-        p {
-          font-size: 15px;
-        }
-      }
-    }
-
-    .navbar-menu2 {
-      flex-grow: 0.2; /* Ocupa metade da largura disponível */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-
-      button {
-        height: 35px;
-        width: 50%;
-        font-size: 18px;
-        color: #fff;
-        background: linear-gradient(to bottom, #4caf50, #ff8a00);
-        border: 1px, solid black;
-        border-radius: 5px;
-        padding: 5px;
-        cursor: pointer;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &:hover {
-          background: linear-gradient(to bottom, #45a049, #4caf50);
-        }
-      }
-    }
   }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999; /* Definindo um z-index alto para garantir que a barra de navegação fique acima do conteúdo */
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-links {
+    display: none;
+    width: 100%;
+  }
+
+  .navbar-links ul {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .navbar-links li {
+    text-align: center;
+  }
+
+  .navbar-links li a {
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+}
+
+  //
 
   // Mensagens
 
