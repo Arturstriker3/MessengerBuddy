@@ -13,7 +13,7 @@
     <div v-if="joined">
 
       <nav class="navbar">
-        <div class="brand-title">Olá, {{ currentUser }}</div>
+        <div class="brand-title"><span>Olá, {{ currentUser }}</span></div>
         <a href="#" class="toggle-button" @click="toggleNavbar">
           <span class="bar"></span>
           <span class="bar"></span>
@@ -21,9 +21,8 @@
         </a>
         <div class="navbar-links" :class="{ active: navbarActive }">
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Sair</a></li>
+            <li><a href="#"><i class="fa-solid fa-users"></i><p>{{ onlineUsers }}</p></a></li>
+            <li><a href="#" @click="logout"><i class="fa-solid fa-right-from-bracket"></i><p>Sair</p></a></li>
           </ul>
         </div>
       </nav>
@@ -96,7 +95,6 @@
     },
 
     beforeDestroy() {
-      // Certifique-se de desconectar os ouvintes quando o componente for destruído
       if (this.socketInstance) {
         this.socketInstance.off('onlineUsersCount', this.updateOnlineUsers);
       }
@@ -320,6 +318,7 @@
         this.joined = false;
         this.checkServerConnection()
         this.$refs.pageLoader.delayAndSetLoadedStatus(2000);
+        this.navbarActive = false
       },
 
       toggleNavbar() {
@@ -402,11 +401,23 @@
   align-items: center;
   background-color: #333;
   color: #fff;
+  margin-bottom: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
 }
 
 .brand-title {
-  font-size: 1.5rem;
   margin: 0.8rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem; /* Define a altura igual à altura do texto "Olá," */
+
+  span {
+    margin-left: 10px;
+    font-size: 1.2rem;
+  }
 }
 
 .navbar-links ul {
@@ -426,8 +437,14 @@
 .navbar-links li a {
   text-decoration: none;
   color: white;
-  padding: 1rem;
-  display: block;
+  padding-top: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 0rem;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .toggle-button {
@@ -449,6 +466,18 @@
 }
 
 @media (max-width: 425px) {
+
+  .brand-title {
+
+    span {
+      margin-left: 10px;
+      font-size: 1.1rem;
+    }
+  }
+
+  .list-container {
+    margin-top: 65px;
+  }
   .toggle-button {
     display: flex;
   }
@@ -458,14 +487,21 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 999; /* Definindo um z-index alto para garantir que a barra de navegação fique acima do conteúdo */
+    z-index: 999;
     flex-direction: column;
     align-items: flex-start;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
   }
 
   .navbar-links {
     display: none;
     width: 100%;
+    height: 100vh;
+    align-items: center;
+    background-color: #808080;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
   }
 
   .navbar-links ul {
@@ -475,10 +511,31 @@
 
   .navbar-links li {
     text-align: center;
+    text-align: left; /* Alinhar texto à esquerda */
+    width: 100%;
+    margin-bottom: 40px;
   }
 
   .navbar-links li a {
     padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start; /* Alinhar conteúdo da esquerda */
+    width: 100%; /* Ocupar toda a largura disponível */
+    box-sizing: border-box; /* Garantir que o padding não aumente a largura */
+
+    p {
+      font-size: 18px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    i {
+      font-size: 25px;
+      color: white;
+      margin-right: 10px;
+      margin-left: 35vw; /* Define a margem esquerda como metade da largura da tela */
+    }
   }
 
   .navbar-links.active {
