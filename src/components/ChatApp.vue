@@ -137,7 +137,7 @@
         this.socketInstance.on("message:received", (data) => {
             if (data.user !== this.currentUser) {
                 this.messages = this.messages.concat(data);
-                this.playNotificationSound(); // Adicione esta linha
+                this.playNotificationSound();
             }
         });
       },
@@ -152,7 +152,6 @@
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
-
         return `${year}-${month}-${day}`;
       },
 
