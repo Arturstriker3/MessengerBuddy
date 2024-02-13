@@ -82,15 +82,10 @@
 
     created() {
       this.checkServerConnection();
-
-      this.loadSavedUser();
+      this.setupSocketListeners();
     },
 
     mounted() {
-      if (this.joined) {
-        this.loadMessages();
-        this.setupSocketListeners();
-      }
       this.$refs.pageLoader.delayAndSetLoadedStatus(1000);
     },
 
@@ -111,35 +106,43 @@
       },
 
       join() {
-        this.joined = true;
-        this.socketInstance = io(this.serverAddress);
-        this.playLoginSound()
+        // Verificar se o nome do usuário está definido
+        if (this.currentUser.trim() === "") {
+          // Se o nome do usuário estiver em branco, não faz nada
+          return;
+        }
 
-        // Atribuir o nome do usuário ao socket
-        this.socketInstance.user = this.currentUser;
-        
-        this.socketInstance.on("message:received", (data) => {
-            if (data.user !== this.currentUser) {
-                this.messages = this.messages.concat(data);
-                this.playNotificationSound(); // Adicione esta linha
+        // Verificar se o nome de usuário está disponível
+        axios.get(`http://localhost:3000/api/checkUserOnline/${this.currentUser}`)
+          .then(response => {
+            if (response.data.online) {
+              // Nome de usuário já está em uso
+              alert('Este nome de usuário já está em uso. Por favor, escolha outro.');
+            } else {
+              // Nome de usuário está disponível, então prossegue com a entrada do usuário
+              this.joined = true;
+              // Carregar as mensagens
+              this.loadMessages();
+
+              // Estabelecer a conexão do socket
+              this.socketInstance = io(this.serverAddress);
+              this.playLoginSound();
+
+              // Emitir o nome de usuário para o servidor
+              this.socketInstance.emit('currentUser', this.currentUser);
+
+              // Lidar com mensagens recebidas
+              this.socketInstance.on("message:received", (data) => {
+                if (data.user !== this.currentUser) {
+                  this.messages = this.messages.concat(data);
+                  this.playNotificationSound(); // Adicione esta linha
+                }
+              });
             }
-        });
-
-        localStorage.setItem('currentUser', this.currentUser);
-        this.loadMessages()
-      },
-
-      join2() {
-
-        // Atribuir o nome do usuário ao socket
-        this.socketInstance.user = this.currentUser;
-
-        this.socketInstance.on("message:received", (data) => {
-            if (data.user !== this.currentUser) {
-                this.messages = this.messages.concat(data);
-                this.playNotificationSound();
-            }
-        });
+          })
+          .catch(error => {
+            console.error('Erro ao verificar disponibilidade do nome de usuário:', error);
+          });
       },
 
       formatTime(date) {
@@ -157,9 +160,9 @@
 
       sendMessage() {
         if (this.text.trim() !== "") {
-        this.addMessage();
-        this.playNotificationSound();
-        this.text = "";
+          this.addMessage();
+          this.playNotificationSound();
+          this.text = "";
         }
 
         // Rola automaticamente para a última mensagem
@@ -207,16 +210,6 @@
           });
         } else {
           console.error('Objeto de mensagem inválido:', message);
-        }
-      },
-
-      loadSavedUser() {
-        // Verifica se há um usuário salvo no localStorage
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-          this.currentUser = savedUser;
-          this.joined = true;
-          this.join2()
         }
       },
 
@@ -291,16 +284,20 @@
 
       setupSocketListeners() {
         // Ouvir o evento 'onlineUsersCount' para manter atualizado o número de usuários online
-        this.socketInstance.on('onlineUsersCount', this.updateOnlineUsers);
+        this.socketInstance.on('onlineUsersCount', (count) => {
+          this.updateOnlineUsers(count);
+        });
       },
 
       updateOnlineUsers(count) {
-        this.onlineUsers = count;
+        if (count > 0) {
+          this.onlineUsers = Math.ceil(count / 2); // Arredonda para cima para garantir que tenhamos pelo menos 1 usuário
+        } else {
+          this.onlineUsers = count;
+        }
       },
 
       logout() {
-        // Limpar as informações no localStorage
-        localStorage.removeItem('currentUser');
         this.$refs.pageLoader.setLoadedStatus(false);
 
         // Desconectar o socket e redefinir variáveis
