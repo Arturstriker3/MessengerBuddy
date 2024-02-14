@@ -60,6 +60,7 @@
   import notificationSound from '../audio/notification.mp3';
   import loginSound from '../audio/login.mp3';
   import logoutSound from '../audio/logout.mp3';
+  import checkProfanity from "mrx-no-swearing-ptbr";
 
   export default {
     data() {
@@ -72,6 +73,7 @@
         isAudioPlaying: false,
         onlineUsers: 1,
         navbarActive: false,
+        profanityFilterEnabled: false,
         serverAddress: 'http://localhost:3000',
       };
     },
@@ -159,11 +161,25 @@
       },
 
       sendMessage() {
-        if (this.text.trim() !== "") {
-          this.addMessage();
-          this.playNotificationSound();
-          this.text = "";
+        // Verifica se o texto da mensagem está vazio
+        if (this.text.trim() === "") {
+          return;
         }
+
+        // Verifica se o filtro de palavrões está habilitado
+        if (this.profanityFilterEnabled) {
+          // Verifica se o texto da mensagem contém palavrões
+          const result = checkProfanity(this.text);
+          if (result) {
+            alert("A mensagem contém palavras ofensivas. Por favor, revise sua mensagem.");
+            return;
+          }
+        }
+
+        // Se não houver palavrões, continua enviando a mensagem
+        this.addMessage();
+        this.playNotificationSound();
+        this.text = "";
 
         // Rola automaticamente para a última mensagem
         this.$nextTick(() => {
