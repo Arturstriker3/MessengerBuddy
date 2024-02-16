@@ -21,6 +21,7 @@
         </a>
         <div class="navbar-links" :class="{ active: navbarActive }">
           <ul>
+            <li><a href="http://localhost:3000/api-docs/#/" target="_blank"><i class="fa-solid fa-book"></i><p>Docs</p></a></li>
             <li><a href="#"><i class="fa-solid fa-users"></i><p>{{ onlineUsers }}</p></a></li>
             <li><a href="#" @click="logout"><i class="fa-solid fa-right-from-bracket"></i><p>Sair</p></a></li>
           </ul>
