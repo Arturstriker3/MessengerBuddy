@@ -68,9 +68,9 @@
 </template>
   
 <script>
-  import typewriterVue from './typewriter.vue';
+  import typewriterVue from '../components/typewriter.vue';
   import io from 'socket.io-client';
-  import PageLoader from './PageLoader.vue'
+  import PageLoader from '../components/PageLoader.vue'
   import axios from 'axios';
   import notificationSound from '../audio/notification.mp3';
   import loginSound from '../audio/login.mp3';

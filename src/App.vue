@@ -1,5 +1,5 @@
 <script setup>
-    import Authpage from "./components/ChatApp.vue"
+    import Authpage from "./Views/ChatApp.vue"
 </script>
 
 <template>       
