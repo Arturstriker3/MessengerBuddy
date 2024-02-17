@@ -1,14 +1,17 @@
 <template>
   <div>
     <PageLoader ref="pageLoader" />
-    <div v-if="!joined" class="parent-container">
-      <typewriterVue class="typewriter-overlay"></typewriterVue>
-      <div class="name-container">
-        <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
-        <input class="user-name" :disabled="isButtonDisabled" @keyup.enter="join" placeholder="Usuário" type="text" v-model="currentUser"/>
-        <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
+
+    <section class="authentication-section">
+      <div v-if="!joined" class="parent-container">
+        <typewriterVue class="typewriter-overlay"></typewriterVue>
+        <div class="name-container">
+          <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
+          <input class="user-name" :disabled="isButtonDisabled" @keyup.enter="join" placeholder="Usuário" type="text" v-model="currentUser"/>
+          <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
+        </div>
       </div>
-    </div>
+    </section>
     
     <div v-if="joined">
 
@@ -28,34 +31,38 @@
         </div>
       </nav>
 
-      <div class="list-container" ref="messageList">
-        <!-- Iterar sobre as datas -->
-        <div v-for="(messages, date) in messagesByDate" :key="date">
-          <!-- Exibir a data como um título -->
-          <h3>{{ reverseDate(date) }}</h3>
-          <!-- Iterar sobre as mensagens da data atual -->
-          <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
-            <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
-            <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
-              {{ message.text }}
-            </span>
-            <div class="message-time">
-              {{ message.time }}
+      <main>
+        <div class="list-container" ref="messageList">
+          <!-- Iterar sobre as datas -->
+          <div v-for="(messages, date) in messagesByDate" :key="date">
+            <!-- Exibir a data como um título -->
+            <h3>{{ reverseDate(date) }}</h3>
+            <!-- Iterar sobre as mensagens da data atual -->
+            <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
+              <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
+              <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
+                {{ message.text }}
+              </span>
+              <div class="message-time">
+                {{ message.time }}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
-      <div class="text-input-container">
-        <input 
-          v-model="text"
-          class="text-message"
-          @keyup.enter="sendMessage"
-          type="text"
-          placeholder="Digite sua mensagem..."
-        />
-        <button class="send-button" @click="sendMessage">Enviar</button>
-      </div>
+      <footer>
+        <div class="text-input-container">
+          <input 
+            v-model="text"
+            class="text-message"
+            @keyup.enter="sendMessage"
+            type="text"
+            placeholder="Digite sua mensagem..."
+          />
+          <button class="send-button" @click="sendMessage">Enviar</button>
+        </div>
+      </footer>
     </div>
   </div>
 </template>
@@ -140,6 +147,7 @@
             if (response.data.online) {
               // Nome de usuário já está em uso
               alert('Este nome de usuário já está em uso. Por favor, escolha outro.');
+              window.location.reload();
             } else {
               // Nome de usuário está disponível, então prossegue com a entrada do usuário
               this.joined = true;
