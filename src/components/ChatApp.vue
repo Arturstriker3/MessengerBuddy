@@ -29,16 +29,23 @@
       </nav>
 
       <div class="list-container" ref="messageList">
-        <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
-          <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
-          <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
-            {{ message.text }}
-          </span>
-          <div class="message-time">
-            {{ message.time }}
+        <!-- Iterar sobre as datas -->
+        <div v-for="(messages, date) in messagesByDate" :key="date">
+          <!-- Exibir a data como um título -->
+          <h3>{{ reverseDate(date) }}</h3>
+          <!-- Iterar sobre as mensagens da data atual -->
+          <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
+            <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
+            <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
+              {{ message.text }}
+            </span>
+            <div class="message-time">
+              {{ message.time }}
+            </div>
           </div>
         </div>
       </div>
+
       <div class="text-input-container">
         <input 
           v-model="text"
@@ -70,6 +77,7 @@
         currentUser: "",
         text: "",
         messages: [],
+        messagesByDate: {},
         isButtonDisabled: true,
         isAudioPlaying: false,
         onlineUsers: 1,
@@ -86,6 +94,17 @@
     created() {
       this.checkServerConnection();
       this.setupSocketListeners();
+      this.groupMessagesByDate();
+    },
+
+    watch: {
+      // Observador para atualizar as mensagens agrupadas por data sempre que o array de mensagens mudar
+      messages: {
+        handler() {
+          this.groupMessagesByDate();
+        },
+        deep: true
+      }
     },
 
     mounted() {
@@ -148,6 +167,22 @@
           });
       },
 
+      groupMessagesByDate() {
+        // Limpar o objeto de mensagens agrupadas por data
+        this.messagesByDate = {};
+
+        // Iterar sobre as mensagens para agrupá-las por data
+        this.messages.forEach(message => {
+          const date = message.date;
+          if (!this.messagesByDate[date]) {
+            // Se ainda não houver mensagens para esta data, inicializa um array vazio
+            this.messagesByDate[date] = [];
+          }
+          // Adicionar a mensagem ao array correspondente à sua data
+          this.messagesByDate[date].push(message);
+        });
+      },
+
       formatTime(date) {
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
@@ -159,6 +194,11 @@
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
         return `${year}-${month}-${day}`;
+      },
+
+      reverseDate(date) {
+        const parts = date.split('-');
+        return parts.reverse().join('/');
       },
 
       sendMessage() {
@@ -231,16 +271,38 @@
       },
 
       loadMessages() {
-
         this.$refs.pageLoader.setLoadedStatus(false);
 
         axios.get('http://localhost:3000/api/getMessages')
           .then(response => {
-            this.messages = response.data.map(message => ({
-              text: message.text,
-              user: message.user,
-              time: this.formatTime(new Date(message.date + ' ' + message.time)),
-            }));
+            // Limpar as mensagens e o objeto de mensagens por data
+            this.messages = [];
+            this.messagesByDate = {};
+
+            // Iterar sobre as mensagens recebidas
+            response.data.forEach(message => {
+              // Formatando a data da mensagem
+              const messageDate = message.date;
+              const formattedMessageDate = this.formatDate(new Date(messageDate));
+
+              // Adicionando a mensagem à lista geral de mensagens
+              this.messages.push({
+                text: message.text,
+                user: message.user,
+                time: this.formatTime(new Date(messageDate + ' ' + message.time)),
+                date: formattedMessageDate
+              });
+
+              // Agrupando a mensagem na lista de mensagens por data
+              if (!this.messagesByDate[formattedMessageDate]) {
+                this.messagesByDate[formattedMessageDate] = [];
+              }
+              this.messagesByDate[formattedMessageDate].push({
+                text: message.text,
+                user: message.user,
+                time: this.formatTime(new Date(messageDate + ' ' + message.time))
+              });
+            });
 
             this.$refs.pageLoader.delayAndSetLoadedStatus(2000);
 
@@ -567,6 +629,14 @@
     margin-left: 5px;
     padding-right: 10px;
     padding-left: 10px;
+
+    h3 {
+      color: #e7e7e7;
+      font-size: 15px;
+      text-align: center;
+      margin-top: 5px;
+      margin-bottom: 30px;
+    }
 
     &::-webkit-scrollbar{
       width: 6px;
