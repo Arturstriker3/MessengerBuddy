@@ -1,6 +1,8 @@
 <template>
+  <Story>
+
   <div>
-    <PageLoader ref="pageLoader" />
+    <!-- <PageLoader ref="pageLoader" /> -->
 
     <section class="authentication-section">
       <div v-if="!joined" class="parent-container">
@@ -65,6 +67,8 @@
       </footer>
     </div>
   </div>
+
+  </Story>
 </template>
   
 <script>
@@ -115,7 +119,7 @@
     },
 
     mounted() {
-      this.$refs.pageLoader.delayAndSetLoadedStatus(1000);
+      // this.$refs.pageLoader.delayAndSetLoadedStatus(1000);
     },
 
     beforeDestroy() {
@@ -289,18 +293,15 @@
 
             // Iterar sobre as mensagens recebidas
             response.data.forEach(message => {
-              // Convertendo a data do UTC para o fuso horário local do cliente
-              const utcDateTime = `${message.date}T${message.time}Z`;
-              const localDate = new Date(utcDateTime);
-
               // Formatando a data da mensagem
-              const formattedMessageDate = this.formatDate(localDate);
+              const messageDate = message.date;
+              const formattedMessageDate = this.formatDate(new Date(messageDate));
 
               // Adicionando a mensagem à lista geral de mensagens
               this.messages.push({
                 text: message.text,
                 user: message.user,
-                time: this.formatTime(localDate),
+                time: this.formatTime(new Date(messageDate + ' ' + message.time)),
                 date: formattedMessageDate
               });
 
@@ -311,7 +312,7 @@
               this.messagesByDate[formattedMessageDate].push({
                 text: message.text,
                 user: message.user,
-                time: this.formatTime(localDate)
+                time: this.formatTime(new Date(messageDate + ' ' + message.time))
               });
             });
 
