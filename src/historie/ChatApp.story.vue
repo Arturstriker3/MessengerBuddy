@@ -1,73 +1,74 @@
 <template>
+
   <Story>
 
-  <div>
-    <!-- <PageLoader ref="pageLoader" /> -->
+  
+    <div>
+      <!--<PageLoader ref="pageLoader" /> -->
 
-    <section class="authentication-section">
-      <div v-if="!joined" class="parent-container">
-        <typewriterVue class="typewriter-overlay"></typewriterVue>
-        <div class="name-container">
-          <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
-          <input class="user-name" :disabled="isButtonDisabled" @keyup.enter="join" placeholder="Usuário" type="text" v-model="currentUser"/>
-          <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
+      <section class="authentication-section">
+        <div v-if="!joined" class="parent-container">
+          <typewriterVue class="typewriter-overlay"></typewriterVue>
+          <div class="name-container">
+            <div class="status-bar" :style="{ 'background-color': isButtonDisabled ? 'red' : 'green' }"></div>
+            <input class="user-name" :disabled="isButtonDisabled" @keyup.enter="join" placeholder="Usuário" type="text" v-model="currentUser"/>
+            <button class="join-button" :disabled="isButtonDisabled" v-on:click="join">Entrar</button>
+          </div>
         </div>
-      </div>
-    </section>
-    
-    <div v-if="joined">
+      </section>
+      
+      <div v-if="joined">
 
-      <nav class="navbar">
-        <div class="brand-title"><span>Olá, {{ currentUser }}</span></div>
-        <a href="#" class="toggle-button" @click="toggleNavbar">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </a>
-        <div class="navbar-links" :class="{ active: navbarActive }">
-          <ul>
-            <li><a href="http://localhost:3000/api-docs/#/" target="_blank"><i class="fa-solid fa-book"></i><p>Docs</p></a></li>
-            <li><a href="#"><i class="fa-solid fa-users"></i><p>{{ onlineUsers }}</p></a></li>
-            <li><a href="#" @click="logout"><i class="fa-solid fa-right-from-bracket"></i><p>Sair</p></a></li>
-          </ul>
-        </div>
-      </nav>
+        <nav class="navbar">
+          <div class="brand-title"><span>Olá, {{ currentUser }}</span></div>
+          <a href="#" class="toggle-button" @click="toggleNavbar">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </a>
+          <div class="navbar-links" :class="{ active: navbarActive }">
+            <ul>
+              <li><a href="https://mbserver-production.up.railway.app/api-docs/" target="_blank"><i class="fa-solid fa-book"></i><p>Docs</p></a></li>
+              <li><a href="#"><i class="fa-solid fa-users"></i><p>{{ onlineUsers }}</p></a></li>
+              <li><a href="#" @click="logout"><i class="fa-solid fa-right-from-bracket"></i><p>Sair</p></a></li>
+            </ul>
+          </div>
+        </nav>
 
-      <main>
-        <div class="list-container" ref="messageList">
-          <!-- Iterar sobre as datas -->
-          <div v-for="(messages, date) in messagesByDate" :key="date">
-            <!-- Exibir a data como um título -->
-            <h3>{{ reverseDate(date) }}</h3>
-            <!-- Iterar sobre as mensagens da data atual -->
-            <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
-              <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
-              <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
-                {{ message.text }}
-              </span>
-              <div class="message-time">
-                {{ message.time }}
+        <main>
+          <div class="list-container" ref="messageList">
+            <!-- Iterar sobre as datas -->
+            <div v-for="(messages, date) in messagesByDate" :key="date">
+              <!-- Exibir a data como um título -->
+              <h3>{{ reverseDate(date) }}</h3>
+              <!-- Iterar sobre as mensagens da data atual -->
+              <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
+                <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
+                <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
+                  {{ message.text }}
+                </span>
+                <div class="message-time">
+                  {{ message.time }}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      <footer>
-        <div class="text-input-container">
-          <input 
-            v-model="text"
-            class="text-message"
-            @keyup.enter="sendMessage"
-            type="text"
-            placeholder="Digite sua mensagem..."
-          />
-          <button class="send-button" @click="sendMessage">Enviar</button>
-        </div>
-      </footer>
+        <footer>
+          <div class="text-input-container">
+            <input 
+              v-model="text"
+              class="text-message"
+              @keyup.enter="sendMessage"
+              type="text"
+              placeholder="Digite sua mensagem..."
+            />
+            <button class="send-button" @click="sendMessage">Enviar</button>
+          </div>
+        </footer>
+      </div>
     </div>
-  </div>
-
   </Story>
 </template>
   
@@ -94,7 +95,7 @@
         onlineUsers: 1,
         navbarActive: false,
         profanityFilterEnabled: false,
-        serverAddress: 'http://localhost:3000',
+        serverAddress: 'https://mbserver-production.up.railway.app/',
       };
     },
     components: {
@@ -118,9 +119,9 @@
       }
     },
 
-    mounted() {
-      // this.$refs.pageLoader.delayAndSetLoadedStatus(1000);
-    },
+    //mounted() {
+    //  this.$refs.pageLoader.delayAndSetLoadedStatus(1000);
+    //},
 
     beforeDestroy() {
       if (this.socketInstance) {
@@ -146,7 +147,7 @@
         }
 
         // Verificar se o nome de usuário está disponível
-        axios.get(`http://localhost:3000/api/checkUserOnline/${this.currentUser}`)
+        axios.get(`https://mbserver-production.up.railway.app/api/checkUserOnline/${this.currentUser}`)
           .then(response => {
             if (response.data.online) {
               // Nome de usuário já está em uso
@@ -265,7 +266,7 @@
 
           // console.log('Dados enviados para o backend:', message);
 
-          axios.post('http://localhost:3000/api/sendMessage', {
+          axios.post('https://mbserver-production.up.railway.app/api/sendMessage', {
             user: message.user,
             text: message.text,
             date: message.date,
@@ -285,7 +286,7 @@
       loadMessages() {
         this.$refs.pageLoader.setLoadedStatus(false);
 
-        axios.get('http://localhost:3000/api/getMessages')
+        axios.get('https://mbserver-production.up.railway.app/api/getMessages')
           .then(response => {
             // Limpar as mensagens e o objeto de mensagens por data
             this.messages = [];
@@ -293,15 +294,18 @@
 
             // Iterar sobre as mensagens recebidas
             response.data.forEach(message => {
+              // Convertendo a data do UTC para o fuso horário local do cliente
+              const utcDateTime = `${message.date}T${message.time}Z`;
+              const localDate = new Date(utcDateTime);
+
               // Formatando a data da mensagem
-              const messageDate = message.date;
-              const formattedMessageDate = this.formatDate(new Date(messageDate));
+              const formattedMessageDate = this.formatDate(localDate);
 
               // Adicionando a mensagem à lista geral de mensagens
               this.messages.push({
                 text: message.text,
                 user: message.user,
-                time: this.formatTime(new Date(messageDate + ' ' + message.time)),
+                time: this.formatTime(localDate),
                 date: formattedMessageDate
               });
 
@@ -312,7 +316,7 @@
               this.messagesByDate[formattedMessageDate].push({
                 text: message.text,
                 user: message.user,
-                time: this.formatTime(new Date(messageDate + ' ' + message.time))
+                time: this.formatTime(localDate)
               });
             });
 
