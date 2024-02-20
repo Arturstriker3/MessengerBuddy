@@ -24,7 +24,7 @@
         </a>
         <div class="navbar-links" :class="{ active: navbarActive }">
           <ul>
-            <li><a href="http://localhost:3000/api-docs/#/" target="_blank"><i class="fa-solid fa-book"></i><p>Docs</p></a></li>
+            <li><a href="https://mbserver-production.up.railway.app/api-docs/" target="_blank"><i class="fa-solid fa-book"></i><p>Docs</p></a></li>
             <li><a href="#"><i class="fa-solid fa-users"></i><p>{{ onlineUsers }}</p></a></li>
             <li><a href="#" @click="logout"><i class="fa-solid fa-right-from-bracket"></i><p>Sair</p></a></li>
           </ul>
@@ -90,7 +90,7 @@
         onlineUsers: 1,
         navbarActive: false,
         profanityFilterEnabled: false,
-        serverAddress: 'http://localhost:3000',
+        serverAddress: 'https://mbserver-production.up.railway.app/',
       };
     },
     components: {
@@ -142,7 +142,7 @@
         }
 
         // Verificar se o nome de usuário está disponível
-        axios.get(`http://localhost:3000/api/checkUserOnline/${this.currentUser}`)
+        axios.get(`https://mbserver-production.up.railway.app/api/checkUserOnline/${this.currentUser}`)
           .then(response => {
             if (response.data.online) {
               // Nome de usuário já está em uso
@@ -261,7 +261,7 @@
 
           // console.log('Dados enviados para o backend:', message);
 
-          axios.post('http://localhost:3000/api/sendMessage', {
+          axios.post('https://mbserver-production.up.railway.app/api/sendMessage', {
             user: message.user,
             text: message.text,
             date: message.date,
@@ -281,7 +281,7 @@
       loadMessages() {
         this.$refs.pageLoader.setLoadedStatus(false);
 
-        axios.get('http://localhost:3000/api/getMessages')
+        axios.get('https://mbserver-production.up.railway.app/api/getMessages')
           .then(response => {
             // Limpar as mensagens e o objeto de mensagens por data
             this.messages = [];
