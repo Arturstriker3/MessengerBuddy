@@ -90,7 +90,7 @@
         onlineUsers: 1,
         navbarActive: false,
         profanityFilterEnabled: false,
-        serverAddress: 'https://mbserver-production.up.railway.app/',
+        serverAddress: 'https://mbserver-production.up.railway.app',
       };
     },
     components: {
@@ -142,7 +142,7 @@
         }
 
         // Verificar se o nome de usuário está disponível
-        axios.get(`https://mbserver-production.up.railway.app/api/checkUserOnline/${this.currentUser}`)
+        axios.get(`${this.serverAddress}/api/checkUserOnline/${this.currentUser}`)
           .then(response => {
             if (response.data.online) {
               // Nome de usuário já está em uso
@@ -261,7 +261,7 @@
 
           // console.log('Dados enviados para o backend:', message);
 
-          axios.post('https://mbserver-production.up.railway.app/api/sendMessage', {
+          axios.post(`${this.serverAddress}/api/sendMessage`, {
             user: message.user,
             text: message.text,
             date: message.date,
@@ -281,7 +281,7 @@
       loadMessages() {
         this.$refs.pageLoader.setLoadedStatus(false);
 
-        axios.get('https://mbserver-production.up.railway.app/api/getMessages')
+        axios.get(`${this.serverAddress}/api/getMessages`)
           .then(response => {
             // Limpar as mensagens e o objeto de mensagens por data
             this.messages = [];
