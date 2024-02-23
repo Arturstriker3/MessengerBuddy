@@ -750,9 +750,8 @@
       color: #fff;
       background: linear-gradient(to bottom, #ff8a00, #ff6a00);
       border: none;
-      border-radius: 99px;
-      padding-left: 15px;
-      padding-right: 15px;
+      border-radius: 50%;
+      padding: 15px;
       cursor: pointer;
       margin-left: 5px;
 
