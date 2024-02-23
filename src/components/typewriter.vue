@@ -93,7 +93,7 @@
   }
 
   span {
-    color: #fff724;
+    color: #ff8a00;
   }
 
   @keyframes cursorBlink {

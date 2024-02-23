@@ -28,7 +28,7 @@
   </script>
   
   <style lang="scss" scoped>
-     $colors: #8CC271, #69BEEB, #F5AA39, #E9643B;
+     $colors: #fff, #ff8a00, #fff, #ff6a00;
   
     // -----------------------------------------------------
 
@@ -42,18 +42,8 @@
       width: 100vw;
       height: 100vh;
       z-index: 999;
-      background: linear-gradient(
-            180deg,
-            rgba(117, 84, 160, 1) 7%,
-            rgba(117, 84, 160, 1) 17%,
-            rgba(106, 95, 168, 1) 29%,
-            rgba(99, 103, 174, 1) 44%,
-            rgba(87, 116, 184, 1) 66%,
-            rgba(70, 135, 198, 1) 83%,
-            rgba(44, 163, 219, 1) 96%,
-            rgba(22, 188, 237, 1) 100%
-        );
-        cursor: none;
+      background-color: #292929;
+      cursor: none;
     }
   
     // -----------------------------------------------------

@@ -60,7 +60,7 @@
             type="text"
             placeholder="Digite sua mensagem..."
           />
-          <button class="send-button" @click="sendMessage">Enviar</button>
+          <button class="send-button" @click="sendMessage"><i class="fa-regular fa-circle-up"></i></button>
         </div>
       </footer>
     </div>
@@ -450,25 +450,29 @@
 
       .user-name {
         height: 30px;
-        font-size: 20px;
-        padding: 5px;
-        margin-bottom: 5px;
+        font-size: 14px;
+        margin-bottom: 8px;
         text-align: center;
         font-weight: bold;
-        border: 3px double black;
+        border: none;
+        border-radius: 99px;
       }
 
-      .join-button {
-        height: 30px;
-        font-size: 20px;
-        color: #fff;
-        background: linear-gradient(to bottom, #ff8a00, #e52e71);
-        transition: background 0.3s;
+        .join-button {
+          height: 30px;
+          font-size: 14px;
+          color: #fff;
 
-        &:hover{
-          cursor: pointer;
-          background: linear-gradient(to bottom, #e52e71, #ff8a00);
-        }
+          background: linear-gradient(to right, #ff8a00, #ff6a00);
+          transition: background 0.3s;
+          border-radius: 99px;
+          border: none;
+
+          &:hover{
+            cursor: pointer;
+            background: linear-gradient(to left, #ff8a00, #ff6a00);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          }
 
         &:disabled {
           cursor: not-allowed;
@@ -481,13 +485,14 @@
 
   /* Navbar */
 
-  .navbar {
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
+  background-color: #48494B ;
   color: #fff;
-  margin-bottom: 25px;
+  margin-bottom: 32px;
+  margin-top: 16px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border-radius: 15px;
 }
@@ -522,7 +527,7 @@
 
 .navbar-links li a {
   text-decoration: none;
-  color: white;
+  color: #fff;
   padding-top: 1rem;
   padding-right: 1rem;
   padding-bottom: 0rem;
@@ -562,7 +567,7 @@
   }
 
   .list-container {
-    margin-top: 65px;
+    margin-top: 72px;
   }
   .toggle-button {
     display: flex;
@@ -578,6 +583,8 @@
     align-items: flex-start;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
+    margin-top: 2px;
+    margin-bottom: 4px;
   }
 
   .navbar-links {
@@ -627,14 +634,20 @@
   .navbar-links.active {
     display: flex;
   }
-}
 
-  //
+  .message-time {
+    font-size: 12px;
+    color: #FFFFFF;
+    margin-right: 5px;
+    margin-bottom: 24px;
+    filter: brightness(80%);
+  }
+}
 
   // Mensagens
 
   .list-container {
-    max-height: 80vh;
+    max-height: 78vh;
     overflow-y: auto;
     margin-right: 5px;
     margin-left: 5px;
@@ -642,11 +655,14 @@
     padding-left: 10px;
 
     h3 {
-      color: #e7e7e7;
+      color: #FFFFFF;
+      background-color: #333;
+      border-radius: 99px;
       font-size: 15px;
       text-align: center;
-      margin-top: 5px;
       margin-bottom: 30px;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
 
     &::-webkit-scrollbar{
@@ -655,14 +671,14 @@
 
     &::-webkit-scrollbar-track{
       border-radius: 8px;
-      background-color: #e7e7e7;
-      border: 1px solid #cacaca;
+      background-color: #FFFFFF;
+      border: 1px solid #fff;
       box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     }
 
     &::-webkit-scrollbar-thumb{
       border-radius: 8px;
-      background-color: #363636;
+      background-color: #FF8833;
     }
 
     .own-message {
@@ -672,10 +688,11 @@
     .message-sender {
       font-weight: bold;
       margin-right: 5px;
+      color: #FF8833;
     }
 
     .other-message-text{
-      background-color: #363638;
+      background-color: #797979;
       border-radius: 10px;
       display: inline-block;
       padding: 5px 10px;
@@ -685,7 +702,7 @@
     }
 
     .own-message-text {
-      background-color: #4caf50;
+      background-color: #0095FF;
       border-radius: 10px;
       display: inline-block;
       padding: 5px 10px;
@@ -697,10 +714,10 @@
 
     .message-time {
       font-size: 12px;
-      color: #808080;
+      color: #FFFFFF;
       margin-right: 5px;
-      margin-bottom: 15px;
-      filter: brightness(35%);
+      margin-bottom: 24px;
+      filter: brightness(80%);
     }
   }
 
@@ -713,31 +730,39 @@
     left: 0;
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 8px;
     align-items: center;
-    backdrop-filter: blur(10px);
 
     .text-message {
       flex: 1;
       height: 50px;
-      padding: 10px;
-      border-radius: 15px;
+      border-radius: 99px;
       font-family: 'Roboto', sans-serif;
+      padding-left: 20px;
+      background-color: #48494B;
+      border: none;
+      color: #fff;
     }
 
     .send-button {
       height: 50px;
-      font-size: 18px;
+      font-size: 16px;
       color: #fff;
-      background: linear-gradient(to bottom, #4caf50, #ff8a00);
-      border: 1px, solid black;
-      border-radius: 5px;
-      padding: 10px;
+      background: linear-gradient(to bottom, #ff8a00, #ff6a00);
+      border: none;
+      border-radius: 99px;
+      padding-left: 15px;
+      padding-right: 15px;
       cursor: pointer;
       margin-left: 5px;
 
+      i {
+        transform: rotate(90deg);
+      }
+
       &:hover {
-        background: linear-gradient(to bottom, #45a049, #4caf50);
+        background: linear-gradient(to bottom, #ff6a00, #ff8a00);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
     }
   }
