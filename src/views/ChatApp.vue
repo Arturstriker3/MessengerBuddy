@@ -33,11 +33,8 @@
 
       <main>
         <div class="list-container" ref="messageList">
-          <!-- Iterar sobre as datas -->
           <div v-for="(messages, date) in messagesByDate" :key="date">
-            <!-- Exibir a data como um título -->
             <h3>{{ reverseDate(date) }}</h3>
-            <!-- Iterar sobre as mensagens da data atual -->
             <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
               <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
               <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
@@ -116,11 +113,13 @@
 
     mounted() {
       this.$refs.pageLoader.delayAndSetLoadedStatus(1000);
+      window.addEventListener('resize', this.calculateMaxListContainerHeight);
     },
 
     beforeDestroy() {
       if (this.socketInstance) {
         this.socketInstance.off('onlineUsersCount', this.updateOnlineUsers);
+        window.removeEventListener('resize', this.calculateMaxListContainerHeight);
       }
     },
 
@@ -409,7 +408,14 @@
 
       toggleNavbar() {
         this.navbarActive = !this.navbarActive;
-      }
+      },
+
+      calculateMaxListContainerHeight() {
+        const windowHeight = window.innerHeight;
+        const inputHeight = document.querySelector('.text-input-container').offsetHeight;
+        const navbarHeight = document.querySelector('.navbar').offsetHeight;
+        return windowHeight - inputHeight - navbarHeight + 'px';
+      },
     },
   };
 </script>
@@ -451,7 +457,7 @@
       .user-name {
         height: 30px;
         font-size: 14px;
-        margin-bottom: 8px;
+        margin-bottom: 24px;
         text-align: center;
         font-weight: bold;
         border: none;
@@ -568,7 +574,9 @@
 
   .list-container {
     margin-top: 72px;
+    min-height: calc(100vh - 135px); /* Ou ajuste conforme necessário */
   }
+
   .toggle-button {
     display: flex;
   }
@@ -582,8 +590,8 @@
     flex-direction: column;
     align-items: flex-start;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    margin-top: 2px;
+    border-radius: 5px;
+    margin-top: 1px;
     margin-bottom: 4px;
   }
 
@@ -647,7 +655,7 @@
   // Mensagens
 
   .list-container {
-    max-height: 78vh;
+    max-height: calc(100vh - 200px);
     overflow-y: auto;
     margin-right: 5px;
     margin-left: 5px;
