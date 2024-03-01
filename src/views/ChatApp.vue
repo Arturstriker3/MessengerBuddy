@@ -134,9 +134,8 @@
       },
 
       join() {
-        // Verificar se o nome do usuário está definido
+        // Verificar se o nome do usuário está definido. Se o nome do usuário estiver em branco, não faz nada
         if (this.currentUser.trim() === "") {
-          // Se o nome do usuário estiver em branco, não faz nada
           return;
         }
 
@@ -144,13 +143,10 @@
         axios.get(`${this.serverAddress}/api/checkUserOnline/${this.currentUser}`)
           .then(response => {
             if (response.data.online) {
-              // Nome de usuário já está em uso
               alert('Este nome de usuário já está em uso. Por favor, escolha outro.');
               window.location.reload();
             } else {
-              // Nome de usuário está disponível, então prossegue com a entrada do usuário
               this.joined = true;
-              // Carregar as mensagens
               this.loadMessages();
 
               // Estabelecer a conexão do socket
@@ -164,7 +160,7 @@
               this.socketInstance.on("message:received", (data) => {
                 if (data.user !== this.currentUser) {
                   this.messages = this.messages.concat(data);
-                  this.playNotificationSound(); // Adicione esta linha
+                  this.playNotificationSound();
                 }
               });
             }
