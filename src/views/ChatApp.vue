@@ -282,32 +282,20 @@
             this.messages = [];
             this.messagesByDate = {};
 
-            // Obtendo o deslocamento do fuso horário local do cliente em minutos
-            const offset = new Date().getTimezoneOffset();
-
             // Iterar sobre as mensagens recebidas
             response.data.forEach(message => {
-              // Convertendo a data do UTC para o fuso horário local do cliente (UTC-3)
+              // Convertendo a data do UTC para o fuso horário local do cliente
               const utcDateTime = `${message.date}T${message.time}Z`;
               const localDate = new Date(utcDateTime);
-              const localDateUTC3 = new Date(localDate.getTime() - (offset * 60000)); // Convertendo o fuso horário para UTC-3
 
               // Formatando a data da mensagem
-              const formattedMessageDate = localDateUTC3.toLocaleDateString('pt-BR', {
-                timeZone: 'UTC',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-              });
+              const formattedMessageDate = this.formatDate(localDate);
 
               // Adicionando a mensagem à lista geral de mensagens
               this.messages.push({
                 text: message.text,
                 user: message.user,
-                time: localDateUTC3.toLocaleTimeString('pt-BR', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                }),
+                time: this.formatTime(localDate),
                 date: formattedMessageDate
               });
 
@@ -318,10 +306,7 @@
               this.messagesByDate[formattedMessageDate].push({
                 text: message.text,
                 user: message.user,
-                time: localDateUTC3.toLocaleTimeString('pt-BR', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })
+                time: this.formatTime(localDate)
               });
             });
 
