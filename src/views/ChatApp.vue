@@ -292,7 +292,7 @@
               const localDate = new Date(utcDateTime);
 
               // Adiciona o offset do fuso horário do cliente para corrigir o horário
-              localDate.setMinutes(localDate.getMinutes() - clientTimezoneOffset);
+              localDate.setMinutes(localDate.getMinutes() + clientTimezoneOffset);
 
               // Formatando a data da mensagem
               const formattedMessageDate = this.formatDate(localDate);
