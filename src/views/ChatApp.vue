@@ -282,11 +282,17 @@
             this.messages = [];
             this.messagesByDate = {};
 
+            // Obtém o fuso horário do cliente em minutos
+            const clientTimezoneOffset = new Date().getTimezoneOffset();
+
             // Iterar sobre as mensagens recebidas
             response.data.forEach(message => {
               // Convertendo a data do UTC para o fuso horário local do cliente
               const utcDateTime = `${message.date}T${message.time}Z`;
               const localDate = new Date(utcDateTime);
+
+              // Adiciona o offset do fuso horário do cliente para corrigir o horário
+              localDate.setMinutes(localDate.getMinutes() - clientTimezoneOffset);
 
               // Formatando a data da mensagem
               const formattedMessageDate = this.formatDate(localDate);
