@@ -288,15 +288,6 @@
               const utcDateTime = `${message.date}T${message.time}Z`;
               const localDate = new Date(utcDateTime);
 
-              // Corrigindo o fuso horário para o local
-              localDate.setHours(localDate.getHours() - 3); // fuso horário de Brasília
-
-              // Formatando a hora no formato "hh:mm"
-              const formattedTime = localDate.toLocaleTimeString('pt-BR', {
-                hour: '2-digit',
-                minute: '2-digit',
-              });
-
               // Formatando a data da mensagem
               const formattedMessageDate = this.formatDate(localDate);
 
@@ -304,7 +295,7 @@
               this.messages.push({
                 text: message.text,
                 user: message.user,
-                time: formattedTime, // Usando o tempo formatado corrigido
+                time: this.formatTime(localDate),
                 date: formattedMessageDate
               });
 
