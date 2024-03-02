@@ -284,20 +284,22 @@
 
             // Iterar sobre as mensagens recebidas
             response.data.forEach(message => {
-              // Convertendo a data do UTC para o fuso horário local do cliente
-              const utcDateTime = `${message.date}T${message.time}Z`;
-              const localDate = new Date(utcDateTime);
+            // Convertendo a data do UTC para o fuso horário local do cliente
+            const utcDateTime = `${message.date}T${message.time}Z`;
+            const localDate = new Date(utcDateTime);
 
-              // Formatando a data da mensagem
-              const formattedMessageDate = this.formatDate(localDate);
+            // Corrigindo o fuso horário para o local
+            const localTime = localDate.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+            // Formatando a data da mensagem
+            const formattedMessageDate = this.formatDate(localDate);
 
-              // Adicionando a mensagem à lista geral de mensagens
-              this.messages.push({
-                text: message.text,
-                user: message.user,
-                time: this.formatTime(localDate),
-                date: formattedMessageDate
-              });
+            // Adicionando a mensagem à lista geral de mensagens
+            this.messages.push({
+              text: message.text,
+              user: message.user,
+              time: localTime, // Usando o tempo local corrigido
+              date: formattedMessageDate
+            });
 
               // Agrupando a mensagem na lista de mensagens por data
               if (!this.messagesByDate[formattedMessageDate]) {
