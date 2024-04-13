@@ -23,14 +23,20 @@
 
 **Tela para Autenticação**
 <div align="center">
-<img src="![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/9de43235-4f3f-436d-9fae-430c0aba59a7)
-" width="600px" height="600px" />
+<img src="![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/7aeaf0c8-1a6c-4bd9-83d3-4c21bc1b0bb2)" width="600px" height="600px" />
 </div>
 <p>Como o intuito é ser um projeto demo existe somente uma autenticação simples para checar a disponibilidade de nome.</p>
 <br/>
 
-![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/7aeaf0c8-1a6c-4bd9-83d3-4c21bc1b0bb2)
+**Tela para Mensagens**
+<div align="center">
+<img src="![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/10e47045-b3eb-4afc-a022-13d76eb0864c)" width="600px" height="600px" />
+</div>
+<p>Após autenticar o usuário consegue ver mensagens antigas e enviar novas.</p>
+<br/>
 
+![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/7aeaf0c8-1a6c-4bd9-83d3-4c21bc1b0bb2)
+![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/10e47045-b3eb-4afc-a022-13d76eb0864c)
 
 **API RESTful**
 * **Repositório da API:** https://github.com/Arturstriker3/mbserver
