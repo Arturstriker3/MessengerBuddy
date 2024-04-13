@@ -35,7 +35,7 @@
         <div class="list-container" ref="messageList">
           <div v-for="(messages, date) in messagesByDate" :key="date">
             <h3>{{ reverseDate(date) }}</h3>
-            <div v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
+            <div class="message-data" v-for="message in messages" :key="message.id" :class="{ 'own-message': message.user === currentUser }">
               <span v-if="message.user !== currentUser" class="message-sender">{{ message.user }}:</span>
               <span :class="{ 'own-message-text': message.user === currentUser, 'other-message-text': message.user !== currentUser }">
                 {{ message.text }}
@@ -86,7 +86,8 @@
         isAudioPlaying: false,
         onlineUsers: 1,
         navbarActive: false,
-        profanityFilterEnabled: false,
+        profanityFilterEnabled: true,
+        // serverAddress: 'http://localhost:3000',
         serverAddress: 'https://mbserver-production.up.railway.app',
       };
     },
@@ -691,43 +692,51 @@
       background-color: #FF8833;
     }
 
-    .own-message {
-      text-align: right;
-    }
+    .message-data {
 
-    .message-sender {
-      font-weight: bold;
-      margin-right: 5px;
-      color: #FF8833;
-    }
+      &:last-child {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+      }
 
-    .other-message-text{
-      background-color: #797979;
-      border-radius: 10px;
-      display: inline-block;
-      padding: 5px 10px;
-      margin-bottom: 3px;
-      color: #FFFFFF;
-      font-size: 20px;
-    }
+      .own-message {
+        text-align: right;
+      }
 
-    .own-message-text {
-      background-color: #0095FF;
-      border-radius: 10px;
-      display: inline-block;
-      padding: 5px 10px;
-      margin-bottom: 3px;
-      color: #FFFFFF;
-      font-size: 20px;
-      text-align: left;
-    }
+      .message-sender {
+        font-weight: bold;
+        margin-right: 5px;
+        color: #FF8833;
+      }
 
-    .message-time {
-      font-size: 12px;
-      color: #FFFFFF;
-      margin-right: 5px;
-      margin-bottom: 24px;
-      filter: brightness(80%);
+      .other-message-text{
+        background-color: #797979;
+        border-radius: 10px;
+        display: inline-block;
+        padding: 5px 10px;
+        margin-bottom: 3px;
+        color: #FFFFFF;
+        font-size: 20px;
+      }
+
+      .own-message-text {
+        background-color: #0095FF;
+        border-radius: 10px;
+        display: inline-block;
+        padding: 5px 10px;
+        margin-bottom: 3px;
+        color: #FFFFFF;
+        font-size: 20px;
+        text-align: left;
+      }
+
+      .message-time {
+        font-size: 12px;
+        color: #FFFFFF;
+        margin-right: 5px;
+        margin-bottom: 24px;
+        filter: brightness(80%);
+      }
     }
   }
 
