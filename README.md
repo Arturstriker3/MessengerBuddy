@@ -23,14 +23,14 @@
 
 **Tela para Autenticação**
 <div align="center">
-<img src="https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/7aeaf0c8-1a6c-4bd9-83d3-4c21bc1b0bb2" width="800px" height="800px" />
+<img src="https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/7aeaf0c8-1a6c-4bd9-83d3-4c21bc1b0bb2" width="800px" height="400px" />
 </div>
 <p>Como o intuito é ser um projeto demo existe somente uma autenticação simples para checar a disponibilidade de nome.</p>
 <br/>
 
 **Tela para Mensagens**
 <div align="center">
-<img src="https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/10e47045-b3eb-4afc-a022-13d76eb0864c" width="800px" height="800px" />
+<img src="https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/10e47045-b3eb-4afc-a022-13d76eb0864c" width="800px" height="400px" />
 </div>
 <p>Após autenticar o usuário consegue ver mensagens antigas e enviar novas.</p>
 <br/>
