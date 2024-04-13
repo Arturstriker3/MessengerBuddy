@@ -695,8 +695,8 @@
     .message-data {
 
       &:last-child {
-        margin-bottom: 24px;
-        padding-bottom: 24px;
+        margin-bottom: 28px;
+        padding-bottom: 28px;
       }
 
       .own-message {
