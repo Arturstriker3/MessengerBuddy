@@ -4,7 +4,7 @@
 
 ### Por que criar o Messenger Buddy?
  
- Buscando aprimorar meus conhecimentos em Websockets e SocketIO, criei o Messenger Buddy, um aplicativo fullstack web que permite a comunicação instantânea entre vários clientes em tempo real.
+ Buscando aprimorar meus conhecimentos em Websockets e SocketIO, criei o Messenger Buddy, um aplicativo fullstack web que permite a comunicação instantânea entre vários clientes em tempo real. Além de ser uma ferramenta poderosa para criar aplicativos de mensagens instantâneas, o SocketIO também pode ser utilizado para uma variedade de outras finalidades que exigem comunicação em tempo real entre clientes.
  
  **Front-End**
 * Html e Scss;
