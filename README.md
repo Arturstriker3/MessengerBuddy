@@ -23,17 +23,18 @@
 
 **Tela para Autenticação**
 <div align="center">
-<img src="![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/3c25b8a9-6c7f-409e-989e-dee110eac557)" width="800px" height="800px" />
+<img src="![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/9de43235-4f3f-436d-9fae-430c0aba59a7)
+" width="800px" height="800px" />
 </div>
 <p>Como o intuito é ser um projeto demo existe somente uma autenticação simples para checar a disponibilidade de nome.</p>
 <br/>
 
 **API RESTful**
-<p>Para implementar as funcionalidade do Messenger Buddy, foi desenvolvida uma API RESTful que para acessar e manipular dados relacionados aos usuários, mensagens e outras funcionalidades do aplicativo.</p>
 * **Repositório da API:** https://github.com/Arturstriker3/mbserver
+<p>Para implementar as funcionalidade do Messenger Buddy, foi desenvolvida uma API RESTful que para acessar e manipular dados relacionados aos usuários, mensagens e outras funcionalidades do aplicativo.</p>
 <br/>
 
 **Menção Honrosa**
-<p>Por se tratar de um App de troca de mensagens exposto publicamente, para moderar as mensagens utilizei o No-Swearing para evitar o envio de palavras inapropriadas.</p>
 * **Repositório da Biblioteca:** https://www.npmjs.com/package/mrx-no-swearing-ptbr
+<p>Por se tratar de um App de troca de mensagens exposto publicamente, para moderar as mensagens utilizei o No-Swearing para evitar o envio de palavras inapropriadas.</p>
 <br/>
