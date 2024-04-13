@@ -1,4 +1,4 @@
-# Messenger Buddy: Aplicativo Web de Troca de Menssagens
+# Messenger Buddy: Aplicativo Web de Troca de Mensagens
 
  Aplicativo Web Fullstack Vue/Node/Mysql
 
@@ -24,10 +24,13 @@
 **Tela para Autenticação**
 <div align="center">
 <img src="![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/9de43235-4f3f-436d-9fae-430c0aba59a7)
-" width="800px" height="800px" />
+" width="600px" height="600px" />
 </div>
 <p>Como o intuito é ser um projeto demo existe somente uma autenticação simples para checar a disponibilidade de nome.</p>
 <br/>
+
+![image](https://github.com/Arturstriker3/MessengerBuddy/assets/59231364/7aeaf0c8-1a6c-4bd9-83d3-4c21bc1b0bb2)
+
 
 **API RESTful**
 * **Repositório da API:** https://github.com/Arturstriker3/mbserver
